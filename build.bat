@@ -1,7 +1,7 @@
 @echo off
 
 set PROJECT_NAME=bleu
-for /F "tokens=*" %%A in ('"git describe HEAD"') do set PROJECT_VER=%%A
+for /F "tokens=*" %%A in ('"git describe HEAD --abbrev=0"') do set PROJECT_VER=%%A
 
 cd %~dp0
 
