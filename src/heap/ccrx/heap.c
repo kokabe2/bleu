@@ -19,7 +19,7 @@ static void *New(int size) {
   WarnIfNeeded();
   return memory;
 }
-static void Del(void **memory) {
+static void Delete(void **memory) {
   free(*memory);
   *memory = NULL;
 }
@@ -28,7 +28,7 @@ static void SetUsageWarning(int size, void (*func)(int usage)) {
   the_warning_func = func;
 }
 const HeapInterface heap = {
-    .New = New, .Del = Del, .SetUsageWarning = SetUsageWarning,
+    .New = New, .Delete = Delete, .SetUsageWarning = SetUsageWarning,
 };
 
 extern uint32_t *heap_area;
