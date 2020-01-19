@@ -28,6 +28,7 @@ void WarningFunc(int usage) {
 TEST(HeapTest, WarnWhenOverUsageLimit) {
   is_over_limit = false;
   given_usage = 0;
+  heap.ClearUsage();
 
   heap.SetUsageWarning(128, WarningFunc);
 
