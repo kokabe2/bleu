@@ -3,11 +3,9 @@
 #ifndef V1_HEAP_H_
 #define V1_HEAP_H_
 
-#define Delete(x) Del((void**) & x)
-
 typedef struct {
   void* (*New)(int size);
-  void (*Del)(void** memory);
+  void (*Delete)(void** memory);
   void (*SetUsageWarning)(int size, void (*func)(int usage));
 } HeapInterface;
 
