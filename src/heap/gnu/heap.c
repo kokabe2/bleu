@@ -24,10 +24,14 @@ static void Delete(void** memory) {
   free(*memory);
   *memory = NULL;
 }
+static void ClearUsage(void) { the_usage = 0; }
 static void SetUsageWarning(int size, void (*func)(int usage)) {
   the_usage_for_warning = size;
   the_warning_func = func;
 }
 const HeapInterface heap = {
-    .New = New, .Delete = Delete, .SetUsageWarning = SetUsageWarning,
+    .New = New,
+    .Delete = Delete,
+    .ClearUsage = ClearUsage,
+    .SetUsageWarning = SetUsageWarning,
 };

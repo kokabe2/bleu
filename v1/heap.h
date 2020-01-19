@@ -6,6 +6,7 @@
 typedef struct {
   void* (*New)(int size);
   void (*Delete)(void** memory);
+  void (*ClearUsage)(void);
   void (*SetUsageWarning)(int size, void (*func)(int usage));
 } HeapInterface;
 
