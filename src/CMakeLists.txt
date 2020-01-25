@@ -5,12 +5,16 @@ include_directories(
 add_library(
     bleu
     heap/gnu/heap.c
+    list/list_node.c
+    list/list.c
     )
 
 add_executable(
     gtests
     main.cpp
     heap/heap_test.cpp
+    list/list_node_test.cpp
+    list/list_test.cpp
     )
 
 add_dependencies(gtests googletest)
