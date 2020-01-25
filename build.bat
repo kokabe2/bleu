@@ -11,6 +11,7 @@ mkdir %OUTPUT_DIR% > NUL 2>&1
 %COMPILER% -output=obj=%OUTPUT_DIR%/%PROJECT_NAME%.obj -lang=c99 -nostuff -isa=rxv3 ^
            -include=v1/ ^
            src/heap/%COMPILER%/heap.c ^
+           src/io_data/io_data.c ^
            src/list/list_node.c ^
            src/list/list.c
 if %errorlevel% neq 0 exit /b
