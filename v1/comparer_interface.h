@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2020 Ken Okabe
 // This software is released under the MIT License, see LICENSE.
-#ifndef V1_COMPARER_H_
-#define V1_COMPARER_H_
+#ifndef V1_COMPARER_INTERFACE_H_
+#define V1_COMPARER_INTERFACE_H_
 
 typedef struct {
   int (*Compare)(const void* x, const void* y);  // Returns less than 0 if x is
@@ -10,4 +10,4 @@ typedef struct {
                                                  // greater than y.
 } ComparerInterface;
 
-#endif  // V1_COMPARER_H_
+#endif  // V1_COMPARER_INTERFACE_H_
