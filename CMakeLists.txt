@@ -38,3 +38,4 @@ add_library(googletest ${GOOGLETEST_SOURCES})
 
 enable_testing()
 add_subdirectory(src)
+add_subdirectory(test)
