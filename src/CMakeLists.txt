@@ -8,6 +8,7 @@ add_library(
     io_data/mock_io_data.cpp
     list/list_node.c
     list/list.c
+    queue/queue.c
     )
 
 add_executable(
@@ -17,6 +18,7 @@ add_executable(
     io_data/mock_io_data_test.cpp
     list/list_node_test.cpp
     list/list_test.cpp
+    queue/queue_test.cpp
     )
 
 add_dependencies(gtests googletest)
