@@ -113,7 +113,7 @@ static void SetItemComparer(List self, const ComparerInterface* ci) {
 static void SetItemDeleter(List self, const DeleterInterface* di) {
   if (self && di) self->di = *di;
 }
-const ListInterface list = {
+const ListMethod list = {
     .New = New,
     .Delete = Delete,
     .Count = Count,
