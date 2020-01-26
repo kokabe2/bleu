@@ -88,7 +88,7 @@ static int UsedSize(Queue self) { return self ? self->used : 0; }
 static int AvailableSize(Queue self) {
   return self ? self->capacity - self->used : 0;
 }
-const QueueInterface queue = {
+const QueueMethod queue = {
     .New = New,
     .Delete = Delete,
     .Enqueue = Enqueue,
