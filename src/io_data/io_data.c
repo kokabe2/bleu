@@ -41,7 +41,7 @@ static void Remove32bit(IoAddress offset, uint32_t data) {
   *address &= ~data;
 }
 static uint32_t Read32bit(IoAddress offset) { return *(uint32_t *)offset; }
-const IoDataInterface ioData = {
+const IoDataMethod ioData = {
     .b8 =
         {
             .Write = Write8bit,

@@ -26,8 +26,8 @@ typedef struct {
     void (*Remove)(IoAddress offset, uint32_t data);
     uint32_t (*Read)(IoAddress offset);
   } b32;
-} IoDataInterface;
+} IoDataMethod;
 
-extern const IoDataInterface ioData;
+extern const IoDataMethod ioData;
 
 #endif  // V1_IO_DATA_H_
