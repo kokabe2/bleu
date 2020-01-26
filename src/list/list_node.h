@@ -12,8 +12,8 @@ typedef struct {
   void (*SetItem)(ListNode self, const void* item);
   ListNode (*GetNext)(ListNode self);
   void (*SetNext)(ListNode self, ListNode node);
-} ListNodeInterface;
+} ListNodeMethod;
 
-extern const ListNodeInterface listNode;
+extern const ListNodeMethod listNode;
 
 #endif  // SRC_LIST_LIST_NODE_H_

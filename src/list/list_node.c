@@ -27,7 +27,7 @@ static ListNode GetNext(ListNode self) { return self ? self->next : NULL; }
 static void SetNext(ListNode self, ListNode next) {
   if (self) self->next = next;
 }
-const ListNodeInterface listNode = {
+const ListNodeMethod listNode = {
     .New = New,
     .Delete = Delete,
     .GetItem = GetItem,
