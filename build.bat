@@ -13,7 +13,8 @@ mkdir %OUTPUT_DIR% > NUL 2>&1
            src/heap/%COMPILER%/heap.c ^
            src/io_data/io_data.c ^
            src/list/list_node.c ^
-           src/list/list.c
+           src/list/list.c ^
+           src/queue/queue.c
 if %errorlevel% neq 0 exit /b
 rlink -form=lib -output=%OUTPUT_DIR%/%PROJECT_NAME%.lib ^
       %OUTPUT_DIR%/%PROJECT_NAME%.obj

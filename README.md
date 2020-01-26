@@ -15,3 +15,4 @@ Bleu is a library for essential utilities.
 - Heap
 - IoData
 - List
+- Queue
