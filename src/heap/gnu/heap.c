@@ -29,7 +29,7 @@ static void SetUsageWarning(int size, void (*func)(int usage)) {
   the_usage_for_warning = size;
   the_warning_func = func;
 }
-const HeapInterface heap = {
+const HeapMethod heap = {
     .New = New,
     .Delete = Delete,
     .ClearUsage = ClearUsage,
