@@ -3,8 +3,8 @@
 #ifndef V1_LIST_H_
 #define V1_LIST_H_
 
-#include "comparer.h"
-#include "deleter.h"
+#include "comparer_interface.h"
+#include "deleter_interface.h"
 
 typedef struct ListStruct* List;
 
