@@ -20,8 +20,8 @@ typedef struct {
   void (*ExpectAdd)(IoAddress offset, IoData data);
   void (*ExpectRemove)(IoAddress offset, IoData data);
   void (*ExpectReadThenReturn)(IoAddress offset, IoData to_return);
-} MockIoDataInterface;
+} MockIoDataMethod;
 
-extern const MockIoDataInterface mockIoData;
+extern const MockIoDataMethod mockIoData;
 
 #endif  // V1_MOCK_IO_DATA_H_

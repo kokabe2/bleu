@@ -8,8 +8,8 @@ typedef struct {
   void (*Delete)(void** memory);
   void (*ClearUsage)(void);
   void (*SetUsageWarning)(int size, void (*func)(int usage));
-} HeapInterface;
+} HeapMethod;
 
-extern const HeapInterface heap;
+extern const HeapMethod heap;
 
 #endif  // V1_HEAP_H_

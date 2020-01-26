@@ -17,8 +17,8 @@ typedef struct {
   void (*Clear)(Queue self);
   int (*UsedSize)(Queue self);
   int (*AvailableSize)(Queue self);
-} QueueInterface;
+} QueueMethod;
 
-extern const QueueInterface queue;
+extern const QueueMethod queue;
 
 #endif  // V1_QUEUE_H_

@@ -115,7 +115,7 @@ static void ExpectReadThenReturn(IoAddress offset, IoData to_return) {
           "mockIoData.ExpectReadThenReturn: Too many expectations"))
     RecordExpectation(kRead, offset, to_return);
 }
-const MockIoDataInterface mockIoData = {
+const MockIoDataMethod mockIoData = {
     SetUp, CleanUp, ExpectWrite, ExpectAdd, ExpectRemove, ExpectReadThenReturn,
 };
 
@@ -222,7 +222,7 @@ static IoData Read(IoAddress offset) {
 static uint8_t Read8bit(IoAddress offset) { return (uint8_t)Read(offset); }
 static uint16_t Read16bit(IoAddress offset) { return (uint16_t)Read(offset); }
 static uint32_t Read32bit(IoAddress offset) { return (uint32_t)Read(offset); }
-const IoDataInterface ioData = {
+const IoDataMethod ioData = {
     {
         Write8bit, Add8bit, Remove8bit, Read8bit,
     },
