@@ -11,8 +11,6 @@ enum {
   kNoExpectedValue = ~0,
 };
 
-typedef uint32_t IoData;
-
 typedef struct {
   void (*SetUp)(int expectation_count);
   void (*CleanUp)(void);

@@ -169,13 +169,13 @@ static void Write(IoAddress offset, IoData data) {
   FailWhenExpectedDoesNotMatch();
   ++get_expectation_count;
 }
-static void Write8bit(IoAddress offset, uint8_t data) {
+static void Write8bit(IoAddress offset, IoData data) {
   Write(offset, (uint8_t)data);
 }
-static void Write16bit(IoAddress offset, uint16_t data) {
+static void Write16bit(IoAddress offset, IoData data) {
   Write(offset, (uint16_t)data);
 }
-static void Write32bit(IoAddress offset, uint32_t data) {
+static void Write32bit(IoAddress offset, IoData data) {
   Write(offset, (uint32_t)data);
 }
 static void Add(IoAddress offset, IoData data) {
@@ -186,13 +186,13 @@ static void Add(IoAddress offset, IoData data) {
   FailWhenExpectedDoesNotMatch();
   ++get_expectation_count;
 }
-static void Add8bit(IoAddress offset, uint8_t data) {
+static void Add8bit(IoAddress offset, IoData data) {
   Add(offset, (uint8_t)data);
 }
-static void Add16bit(IoAddress offset, uint16_t data) {
+static void Add16bit(IoAddress offset, IoData data) {
   Add(offset, (uint16_t)data);
 }
-static void Add32bit(IoAddress offset, uint32_t data) {
+static void Add32bit(IoAddress offset, IoData data) {
   Add(offset, (uint32_t)data);
 }
 static void Remove(IoAddress offset, IoData data) {
@@ -203,13 +203,13 @@ static void Remove(IoAddress offset, IoData data) {
   FailWhenExpectedDoesNotMatch();
   ++get_expectation_count;
 }
-static void Remove8bit(IoAddress offset, uint8_t data) {
+static void Remove8bit(IoAddress offset, IoData data) {
   Remove(offset, (uint8_t)data);
 }
-static void Remove16bit(IoAddress offset, uint16_t data) {
+static void Remove16bit(IoAddress offset, IoData data) {
   Remove(offset, (uint16_t)data);
 }
-static void Remove32bit(IoAddress offset, uint32_t data) {
+static void Remove32bit(IoAddress offset, IoData data) {
   Remove(offset, (uint32_t)data);
 }
 static IoData Read(IoAddress offset) {
@@ -220,9 +220,9 @@ static IoData Read(IoAddress offset) {
   FailWhenExpectedDoesNotMatch();
   return expectations[get_expectation_count++].data;
 }
-static uint8_t Read8bit(IoAddress offset) { return (uint8_t)Read(offset); }
-static uint16_t Read16bit(IoAddress offset) { return (uint16_t)Read(offset); }
-static uint32_t Read32bit(IoAddress offset) { return (uint32_t)Read(offset); }
+static IoData Read8bit(IoAddress offset) { return (uint8_t)Read(offset); }
+static IoData Read16bit(IoAddress offset) { return (uint16_t)Read(offset); }
+static IoData Read32bit(IoAddress offset) { return (uint32_t)Read(offset); }
 static const IoDataMethodStruct kTheMethod = {
     {
         Write8bit, Add8bit, Remove8bit, Read8bit,

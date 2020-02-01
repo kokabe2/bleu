@@ -2,45 +2,45 @@
 // This software is released under the MIT License, see LICENSE.
 #include "io_data.h"
 
-static void Write8bit(IoAddress offset, uint8_t data) {
+static void Write8bit(IoAddress offset, IoData data) {
   uint8_t volatile *address = (uint8_t *)offset;
   *address = data;
 }
-static void Add8bit(IoAddress offset, uint8_t data) {
+static void Add8bit(IoAddress offset, IoData data) {
   uint8_t volatile *address = (uint8_t *)offset;
   *address |= data;
 }
-static void Remove8bit(IoAddress offset, uint8_t data) {
+static void Remove8bit(IoAddress offset, IoData data) {
   uint8_t volatile *address = (uint8_t *)offset;
   *address &= ~data;
 }
-static uint8_t Read8bit(IoAddress offset) { return *(uint8_t *)offset; }
-static void Write16bit(IoAddress offset, uint16_t data) {
+static IoData Read8bit(IoAddress offset) { return *(uint8_t *)offset; }
+static void Write16bit(IoAddress offset, IoData data) {
   uint16_t volatile *address = (uint16_t *)offset;
   *address = data;
 }
-static void Add16bit(IoAddress offset, uint16_t data) {
+static void Add16bit(IoAddress offset, IoData data) {
   uint16_t volatile *address = (uint16_t *)offset;
   *address |= data;
 }
-static void Remove16bit(IoAddress offset, uint16_t data) {
+static void Remove16bit(IoAddress offset, IoData data) {
   uint16_t volatile *address = (uint16_t *)offset;
   *address &= ~data;
 }
-static uint16_t Read16bit(IoAddress offset) { return *(uint16_t *)offset; }
-static void Write32bit(IoAddress offset, uint32_t data) {
+static IoData Read16bit(IoAddress offset) { return *(uint16_t *)offset; }
+static void Write32bit(IoAddress offset, IoData data) {
   uint32_t volatile *address = (uint32_t *)offset;
   *address = data;
 }
-static void Add32bit(IoAddress offset, uint32_t data) {
+static void Add32bit(IoAddress offset, IoData data) {
   uint32_t volatile *address = (uint32_t *)offset;
   *address |= data;
 }
-static void Remove32bit(IoAddress offset, uint32_t data) {
+static void Remove32bit(IoAddress offset, IoData data) {
   uint32_t volatile *address = (uint32_t *)offset;
   *address &= ~data;
 }
-static uint32_t Read32bit(IoAddress offset) { return *(uint32_t *)offset; }
+static IoData Read32bit(IoAddress offset) { return *(uint32_t *)offset; }
 static const IoDataMethodStruct kTheMethod = {
     .b8 =
         {
