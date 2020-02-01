@@ -34,8 +34,8 @@ class ListTest : public ::testing::Test {
     last_deleted_item = NULL;
     for (int i = 0; i < kNumOfItems; ++i) items[i] = i;
     l = list->New();
-    list->SetItemComparer(l, (ComparerInterface)&kComparer);
-    list->SetItemDeleter(l, (DeleterInterface)&kDeleter);
+    list->SetItemComparer(l, &kComparer);
+    list->SetItemDeleter(l, &kDeleter);
   }
   virtual void TearDown() { list->Delete(&l); }
   void AssertInitialCondition() {
@@ -145,8 +145,8 @@ TEST_F(ListTest, CallMethodWithNullInstance) {
   list->Clear(NULL);
   EXPECT_EQ(NULL, list->Find(NULL, items));
   EXPECT_EQ(NULL, list->Pop(NULL, 0));
-  list->SetItemComparer(NULL, (ComparerInterface)&kComparer);
-  list->SetItemDeleter(NULL, (DeleterInterface)&kDeleter);
+  list->SetItemComparer(NULL, &kComparer);
+  list->SetItemDeleter(NULL, &kDeleter);
 
   SUCCEED();
 }

@@ -118,7 +118,7 @@ static void ExpectReadThenReturn(IoAddress offset, IoData to_return) {
 static const MockIoDataMethodStruct kTheMockMethod = {
     SetUp, CleanUp, ExpectWrite, ExpectAdd, ExpectRemove, ExpectReadThenReturn,
 };
-const MockIoDataMethod mockIoData = (MockIoDataMethod)&kTheMockMethod;
+const MockIoDataMethod mockIoData = &kTheMockMethod;
 
 static void SetExpectedAndActual(int kind, IoAddress offset, IoData data) {
   expected = expectations[get_expectation_count];
@@ -234,4 +234,4 @@ static const IoDataMethodStruct kTheMethod = {
         Write32bit, Add32bit, Remove32bit, Read32bit,
     },
 };
-const IoDataMethod ioData = (IoDataMethod)&kTheMethod;
+const IoDataMethod ioData = &kTheMethod;

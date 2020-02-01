@@ -19,7 +19,8 @@ typedef struct {
   void* (*Pop)(List self, int index);
   void (*SetItemComparer)(List self, ComparerInterface ci);
   void (*SetItemDeleter)(List self, DeleterInterface di);
-} ListMethodStruct, *ListMethod;
+} ListMethodStruct;
+typedef const ListMethodStruct* ListMethod;
 
 extern const ListMethod list;
 
