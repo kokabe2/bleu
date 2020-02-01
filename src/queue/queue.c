@@ -16,17 +16,17 @@ typedef struct QueueStruct {
 } QueueStruct;
 
 static Queue New(int capacity) {
-  Queue self = (Queue)heap.New(sizeof(QueueStruct));
+  Queue self = (Queue)heap->New(sizeof(QueueStruct));
   if (!self) return self;
   self->capacity = capacity;
-  self->buffer = (uint8_t*)heap.New(capacity);
-  if (!self->buffer) heap.Delete((void**)&self);
+  self->buffer = (uint8_t*)heap->New(capacity);
+  if (!self->buffer) heap->Delete((void**)&self);
   return self;
 }
 static void Delete(Queue* self) {
   if (!self || !*self) return;
-  heap.Delete((void**)&(*self)->buffer);
-  heap.Delete((void**)self);
+  heap->Delete((void**)&(*self)->buffer);
+  heap->Delete((void**)self);
 }
 inline static bool IsBufferFull(Queue self) {
   return self->capacity == self->used;
@@ -88,7 +88,7 @@ static int UsedSize(Queue self) { return self ? self->used : 0; }
 static int AvailableSize(Queue self) {
   return self ? self->capacity - self->used : 0;
 }
-const QueueMethod queue = {
+static const QueueMethodStruct kTheMethod = {
     .New = New,
     .Delete = Delete,
     .Enqueue = Enqueue,
@@ -99,3 +99,4 @@ const QueueMethod queue = {
     .UsedSize = UsedSize,
     .AvailableSize = AvailableSize,
 };
+const QueueMethod queue = &kTheMethod;

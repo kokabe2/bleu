@@ -12,7 +12,7 @@ typedef struct {
   void (*SetItem)(ListNode self, const void* item);
   ListNode (*GetNext)(ListNode self);
   void (*SetNext)(ListNode self, ListNode node);
-} ListNodeMethod;
+} ListNodeMethodStruct, *ListNodeMethod;
 
 extern const ListNodeMethod listNode;
 

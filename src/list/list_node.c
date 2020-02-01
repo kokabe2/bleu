@@ -12,12 +12,12 @@ typedef struct ListNodeStruct {
 } ListNodeStruct;
 
 static ListNode New(const void* item) {
-  ListNode self = (ListNode)heap.New(sizeof(ListNodeStruct));
+  ListNode self = (ListNode)heap->New(sizeof(ListNodeStruct));
   if (self) self->item = (void*)item;
   return self;
 }
 static void Delete(ListNode* self) {
-  if (self) heap.Delete((void**)self);
+  if (self) heap->Delete((void**)self);
 }
 static void* GetItem(ListNode self) { return self ? self->item : NULL; }
 static void SetItem(ListNode self, const void* item) {
@@ -27,7 +27,7 @@ static ListNode GetNext(ListNode self) { return self ? self->next : NULL; }
 static void SetNext(ListNode self, ListNode next) {
   if (self) self->next = next;
 }
-const ListNodeMethod listNode = {
+static const ListNodeMethodStruct kTheMethod = {
     .New = New,
     .Delete = Delete,
     .GetItem = GetItem,
@@ -35,3 +35,4 @@ const ListNodeMethod listNode = {
     .GetNext = GetNext,
     .SetNext = SetNext,
 };
+const ListNodeMethod listNode = &kTheMethod;

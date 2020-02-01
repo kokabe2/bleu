@@ -25,20 +25,20 @@ static const struct {
   const char* report_but_was;
 } kExpectedMethodMismatchReports[] = {
     {
-        "Expected ioData.Write(0x%x, 0x%x)\n",
-        "\t        But was ioData.Write(0x%x, 0x%x)",
+        "Expected ioData->Write(0x%x, 0x%x)\n",
+        "\t        But was ioData->Write(0x%x, 0x%x)",
     },
     {
-        "Expected ioData.Add(0x%x, 0x%x)\n",
-        "\t        But was ioData.Add(0x%x, 0x%x)",
+        "Expected ioData->Add(0x%x, 0x%x)\n",
+        "\t        But was ioData->Add(0x%x, 0x%x)",
     },
     {
-        "Expected ioData.Remove(0x%x, 0x%x)\n",
-        "\t        But was ioData.Remove(0x%x, 0x%x)",
+        "Expected ioData->Remove(0x%x, 0x%x)\n",
+        "\t        But was ioData->Remove(0x%x, 0x%x)",
     },
     {
-        "Expected ioData.Read(0x%x) would return 0x%x\n",
-        "\t        But was ioData.Read(0x%x) returns 0x%x",
+        "Expected ioData->Read(0x%x) would return 0x%x\n",
+        "\t        But was ioData->Read(0x%x) returns 0x%x",
     },
 };
 
@@ -97,27 +97,28 @@ inline static void RecordExpectation(int kind, IoAddress offset, IoData data) {
 }
 static void ExpectWrite(IoAddress offset, IoData data) {
   if (!FailWhenNoRoomForExpectations(
-          "mockIoData.ExpectWrite: Too many expectations"))
+          "mockIoData->ExpectWrite: Too many expectations"))
     RecordExpectation(kWrite, offset, data);
 }
 static void ExpectAdd(IoAddress offset, IoData data) {
   if (!FailWhenNoRoomForExpectations(
-          "mockIoData.ExpectAdd: Too many expectations"))
+          "mockIoData->ExpectAdd: Too many expectations"))
     RecordExpectation(kAdd, offset, data);
 }
 static void ExpectRemove(IoAddress offset, IoData data) {
   if (!FailWhenNoRoomForExpectations(
-          "mockIoData.ExpectRemove: Too many expectations"))
+          "mockIoData->ExpectRemove: Too many expectations"))
     RecordExpectation(kRemove, offset, data);
 }
 static void ExpectReadThenReturn(IoAddress offset, IoData to_return) {
   if (!FailWhenNoRoomForExpectations(
-          "mockIoData.ExpectReadThenReturn: Too many expectations"))
+          "mockIoData->ExpectReadThenReturn: Too many expectations"))
     RecordExpectation(kRead, offset, to_return);
 }
-const MockIoDataMethod mockIoData = {
+static const MockIoDataMethodStruct kTheMockMethod = {
     SetUp, CleanUp, ExpectWrite, ExpectAdd, ExpectRemove, ExpectReadThenReturn,
 };
+const MockIoDataMethod mockIoData = (MockIoDataMethod)&kTheMockMethod;
 
 static void SetExpectedAndActual(int kind, IoAddress offset, IoData data) {
   expected = expectations[get_expectation_count];
@@ -164,7 +165,7 @@ static void Write(IoAddress offset, IoData data) {
   if (!expectations) return;
 
   SetExpectedAndActual(kWrite, offset, (IoData)data);
-  FailWhenNoUnusedExpectations("ioData.Write(0x%x, 0x%x)");
+  FailWhenNoUnusedExpectations("ioData->Write(0x%x, 0x%x)");
   FailWhenExpectedDoesNotMatch();
   ++get_expectation_count;
 }
@@ -181,7 +182,7 @@ static void Add(IoAddress offset, IoData data) {
   if (!expectations) return;
 
   SetExpectedAndActual(kAdd, offset, (IoData)data);
-  FailWhenNoUnusedExpectations("ioData.Add(0x%x, 0x%x)");
+  FailWhenNoUnusedExpectations("ioData->Add(0x%x, 0x%x)");
   FailWhenExpectedDoesNotMatch();
   ++get_expectation_count;
 }
@@ -198,7 +199,7 @@ static void Remove(IoAddress offset, IoData data) {
   if (!expectations) return;
 
   SetExpectedAndActual(kRemove, offset, (IoData)data);
-  FailWhenNoUnusedExpectations("ioData.Remove(0x%x, 0x%x)");
+  FailWhenNoUnusedExpectations("ioData->Remove(0x%x, 0x%x)");
   FailWhenExpectedDoesNotMatch();
   ++get_expectation_count;
 }
@@ -215,14 +216,14 @@ static IoData Read(IoAddress offset) {
   if (!expectations) return 0;
 
   SetExpectedAndActual(kRead, offset, kNoExpectedValue);
-  FailWhenNoUnusedExpectations("ioData.Read(0x%x)");
+  FailWhenNoUnusedExpectations("ioData->Read(0x%x)");
   FailWhenExpectedDoesNotMatch();
   return expectations[get_expectation_count++].data;
 }
 static uint8_t Read8bit(IoAddress offset) { return (uint8_t)Read(offset); }
 static uint16_t Read16bit(IoAddress offset) { return (uint16_t)Read(offset); }
 static uint32_t Read32bit(IoAddress offset) { return (uint32_t)Read(offset); }
-const IoDataMethod ioData = {
+static const IoDataMethodStruct kTheMethod = {
     {
         Write8bit, Add8bit, Remove8bit, Read8bit,
     },
@@ -233,3 +234,4 @@ const IoDataMethod ioData = {
         Write32bit, Add32bit, Remove32bit, Read32bit,
     },
 };
+const IoDataMethod ioData = (IoDataMethod)&kTheMethod;

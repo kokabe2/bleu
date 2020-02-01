@@ -17,7 +17,7 @@ typedef struct {
   void (*Clear)(Queue self);
   int (*UsedSize)(Queue self);
   int (*AvailableSize)(Queue self);
-} QueueMethod;
+} QueueMethodStruct, *QueueMethod;
 
 extern const QueueMethod queue;
 
