@@ -7,12 +7,12 @@ extern "C" {
 }
 
 TEST(HeapTest, HowToUse) {
-  char* c = (char*)heap.New(128);
+  char* c = (char*)heap->New(128);
 
   EXPECT_TRUE(c != NULL);
   for (int i = 0; i < 128; ++i) EXPECT_EQ(0, c[i]) << "Failure at index " << i;
 
-  heap.Delete((void**)&c);
+  heap->Delete((void**)&c);
 
   EXPECT_EQ(NULL, c);
 }
@@ -28,16 +28,16 @@ void WarningFunc(int usage) {
 TEST(HeapTest, WarnWhenOverUsageLimit) {
   is_over_limit = false;
   given_usage = 0;
-  heap.ClearUsage();
+  heap->ClearUsage();
 
-  heap.SetUsageWarning(128, WarningFunc);
+  heap->SetUsageWarning(128, WarningFunc);
 
-  void* v1 = (char*)heap.New(1);
+  void* v1 = (char*)heap->New(1);
   EXPECT_FALSE(is_over_limit);
-  void* v2 = (char*)heap.New(128);
+  void* v2 = (char*)heap->New(128);
   EXPECT_TRUE(is_over_limit);
   EXPECT_GE(given_usage, 1 + 128);  // Actual usage is implementation-dependent.
 
-  heap.Delete((void**)&v1);
-  heap.Delete((void**)&v2);
+  heap->Delete((void**)&v1);
+  heap->Delete((void**)&v2);
 }

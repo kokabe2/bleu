@@ -28,12 +28,13 @@ static void SetUsageWarning(int size, void (*func)(int usage)) {
   the_usage_for_warning = size;
   the_warning_func = func;
 }
-const HeapMethod heap = {
+static const HeapMethodStruct kTheMethod = {
     .New = New,
     .Delete = Delete,
     .ClearUsage = ClearUsage,
     .SetUsageWarning = SetUsageWarning,
 };
+const HeapMethod heap = &kTheMethod;
 
 extern uint32_t *heap_area;
 extern int heap_area_size;

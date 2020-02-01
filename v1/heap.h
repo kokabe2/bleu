@@ -8,7 +8,8 @@ typedef struct {
   void (*Delete)(void** memory);
   void (*ClearUsage)(void);
   void (*SetUsageWarning)(int size, void (*func)(int usage));
-} HeapMethod;
+} HeapMethodStruct;
+typedef const HeapMethodStruct* HeapMethod;
 
 extern const HeapMethod heap;
 

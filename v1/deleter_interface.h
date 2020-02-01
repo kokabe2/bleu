@@ -5,6 +5,7 @@
 
 typedef struct {
   void (*Delete)(void** x);  // x shall be null if deleted successfully.
-} DeleterInterface;
+} DeleterInterfaceStruct;
+typedef const DeleterInterfaceStruct* DeleterInterface;
 
 #endif  // V1_DELETER_INTERFACE_H_

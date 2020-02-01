@@ -11,8 +11,6 @@ enum {
   kNoExpectedValue = ~0,
 };
 
-typedef uint32_t IoData;
-
 typedef struct {
   void (*SetUp)(int expectation_count);
   void (*CleanUp)(void);
@@ -20,7 +18,8 @@ typedef struct {
   void (*ExpectAdd)(IoAddress offset, IoData data);
   void (*ExpectRemove)(IoAddress offset, IoData data);
   void (*ExpectReadThenReturn)(IoAddress offset, IoData to_return);
-} MockIoDataMethod;
+} MockIoDataMethodStruct;
+typedef const MockIoDataMethodStruct *MockIoDataMethod;
 
 extern const MockIoDataMethod mockIoData;
 

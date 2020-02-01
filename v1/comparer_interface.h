@@ -8,6 +8,7 @@ typedef struct {
                                                  // less than y, 0 if x equals
                                                  // y, greater than 0 if x is
                                                  // greater than y.
-} ComparerInterface;
+} ComparerInterfaceStruct;
+typedef const ComparerInterfaceStruct* ComparerInterface;
 
 #endif  // V1_COMPARER_INTERFACE_H_
