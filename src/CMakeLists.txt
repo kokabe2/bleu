@@ -4,7 +4,7 @@ include_directories(
 
 add_library(
     bleu
-    heap/gnu/heap.c
+    heap/gcc/heap.c
     io_data/mock_io_data.cpp
     list/list_node.c
     list/list.c
