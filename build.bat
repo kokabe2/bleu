@@ -14,7 +14,13 @@ mkdir %OUTPUT_DIR% > NUL 2>&1
            src/io_data/io_data.c ^
            src/list/list_node.c ^
            src/list/list.c ^
-           src/queue/queue.c
+           src/queue/queue.c ^
+           src/rng/xorshift/null_xorshift.c ^
+           src/rng/xorshift/xorshift.c ^
+           src/rng/xorshift/xorshift32.c ^
+           src/rng/xorshift/xorshift64.c ^
+           src/rng/xorshift/xorshift96.c ^
+           src/rng/xorshift/xorshift128.c
 if %errorlevel% neq 0 exit /b
 rlink -form=lib -output=%OUTPUT_DIR%/%PROJECT_NAME%.lib ^
       %OUTPUT_DIR%/%PROJECT_NAME%.obj
