@@ -13,6 +13,10 @@ Bleu is a library for essential utilities.
 ## Features
 
 - Heap
-- IoData
+- I/O Data
 - List
 - Queue
+  - Circular Buffer
+- RNG
+  - Xorshift
+  - Xorshift+
