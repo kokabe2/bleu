@@ -11,7 +11,7 @@ static int the_usage_for_warning = 0;
 static WarningDelegate the_warning_delegate = NULL;
 
 inline static void WarnIfNeeded(void) {
-  if (the_warning_delegate != NULL && the_usage >= the_usage_for_warning)
+  if (the_warning_delegate && the_usage >= the_usage_for_warning)
     the_warning_delegate(the_usage);
 }
 static void *New(int size) {
