@@ -7,11 +7,11 @@
 
 static int the_usage = 0;
 static int the_usage_for_warning = 0;
-static void (*the_warning_func)(int usage) = NULL;
+static WarningDelegate the_warning_delegate = NULL;
 
 inline static void WarnIfNeeded(void) {
-  if (the_warning_func != NULL && the_usage >= the_usage_for_warning)
-    the_warning_func(the_usage);
+  if (the_warning_delegate != NULL && the_usage >= the_usage_for_warning)
+    the_warning_delegate(the_usage);
 }
 static void* New(int size) {
   void* memory = calloc(1, size);
@@ -27,7 +27,7 @@ static void Delete(void** memory) {
 static void ClearUsage(void) { the_usage = 0; }
 static void SetUsageWarning(int size, void (*func)(int usage)) {
   the_usage_for_warning = size;
-  the_warning_func = func;
+  the_warning_delegate = func;
 }
 static const HeapMethodStruct kTheMethod = {
     .New = New,
