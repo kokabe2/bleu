@@ -20,6 +20,7 @@ static void* New(int size) {
   return memory;
 }
 static void Delete(void** memory) {
+  if (!memory) return;
   the_usage -= malloc_usable_size(*memory);
   free(*memory);
   *memory = NULL;

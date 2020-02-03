@@ -17,6 +17,21 @@ TEST(HeapTest, HowToUse) {
   EXPECT_EQ(NULL, c);
 }
 
+TEST(HeapTest, DeleteWithNull) {
+  heap->Delete(NULL);
+
+  SUCCEED();
+}
+
+TEST(HeapTest, DeleteMultipleTimes) {
+  char* c = (char*)heap->New(128);
+
+  heap->Delete((void**)&c);
+  heap->Delete((void**)&c);
+
+  SUCCEED();
+}
+
 namespace {
 bool is_over_limit;
 int given_usage;

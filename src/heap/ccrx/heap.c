@@ -20,6 +20,7 @@ static void *New(int size) {
   return memory;
 }
 static void Delete(void **memory) {
+  if (!memory) return;
   free(*memory);
   *memory = NULL;
 }
