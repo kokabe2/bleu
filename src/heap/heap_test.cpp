@@ -20,7 +20,7 @@ TEST(HeapTest, HowToUse) {
 namespace {
 bool is_over_limit;
 int given_usage;
-void WarningFunc(int usage) {
+void WarningSpy(int usage) {
   is_over_limit = true;
   given_usage = usage;
 }
@@ -30,7 +30,7 @@ TEST(HeapTest, WarnWhenOverUsageLimit) {
   given_usage = 0;
   heap->ClearUsage();
 
-  heap->SetUsageWarning(128, WarningFunc);
+  heap->SetUsageWarning(128, WarningSpy);
 
   void* v1 = (char*)heap->New(1);
   EXPECT_FALSE(is_over_limit);
