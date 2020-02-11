@@ -2,7 +2,7 @@
 // This software is released under the MIT License, see LICENSE.
 #include "xorshift64.h"
 
-#include "xorshift_private.h"
+#include "xorshift_protected.h"
 
 static uint32_t Generate(Xorshift self) {
   uint64_t *x = (uint64_t *)self->state;

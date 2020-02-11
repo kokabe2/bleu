@@ -6,7 +6,7 @@
 #include <string.h>
 
 #include "heap.h"
-#include "xorshift_private.h"
+#include "xorshift_protected.h"
 
 static Xorshift New(int state_size, XorshiftAbstractMethod impl) {
   Xorshift self = (Xorshift)heap->New(sizeof(XorshiftStruct));
@@ -17,10 +17,10 @@ static Xorshift New(int state_size, XorshiftAbstractMethod impl) {
   if (!self->state) heap->Delete((void**)&self);
   return self;
 }
-static const XorshiftPrivateMethodStruct kPrivateMethod = {
+static const XorshiftProtectedMethodStruct kProtectedMethod = {
     .New = New,
 };
-const XorshiftPrivateMethod _xorshift = &kPrivateMethod;
+const XorshiftProtectedMethod _xorshift = &kProtectedMethod;
 
 static void Delete(Xorshift* self) {
   if (!self || !*self) return;
