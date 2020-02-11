@@ -30,6 +30,19 @@ TEST_F(ListNodeTest, ConditionAfterNew) {
   EXPECT_EQ(NULL, listNode->GetNext(ln2));
 }
 
+TEST_F(ListNodeTest, Delete) {
+  listNode->Delete(&ln1);
+
+  EXPECT_EQ(NULL, ln1);
+}
+
+TEST_F(ListNodeTest, DeleteMultipleTimes) {
+  listNode->Delete(&ln1);
+  listNode->Delete(&ln1);
+
+  SUCCEED();
+}
+
 TEST_F(ListNodeTest, HowToUse) {
   char item2[2];
 

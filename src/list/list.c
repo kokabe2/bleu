@@ -45,14 +45,16 @@ static void Delete(List* self) {
   heap->Delete((void**)self);
 }
 static int Count(List self) { return self ? self->count : 0; }
+inline static bool Validate(List self, int index) {
+  return self && index >= 0 && index < self->count;
+}
 static ListNode GetNode(List self, int index) {
   ListNode ln = GetFirstNode(self);
   for (int i = 0; i < index; ++i) ln = listNode->GetNext(ln);
   return ln;
 }
 static void* Get(List self, int index) {
-  ListNode ln =
-      self && index >= 0 && index < self->count ? GetNode(self, index) : NULL;
+  ListNode ln = Validate(self, index) ? GetNode(self, index) : NULL;
   return listNode->GetItem(ln);
 }
 inline static void SetLastNode(List self, ListNode ln) {
@@ -104,9 +106,8 @@ inline static void* PopItem(ListNode ln) {
   return item;
 }
 static void* Pop(List self, int index) {
-  ListNode ln =
-      self && index >= 0 && index < self->count ? PopNode(self, index) : NULL;
-  return PopItem(ln);
+  ListNode ln = Validate(self, index) ? PopNode(self, index) : NULL;
+  return ln ? PopItem(ln) : NULL;
 }
 static void SetItemComparer(List self, ComparerInterface cis) {
   if (self && cis) self->cis = *cis;
