@@ -16,13 +16,11 @@ mkdir %OUTPUT_DIR% > NUL 2>&1
            src/list/list_node.c ^
            src/list/list.c ^
            src/queue/queue.c ^
-           src/rng/xorshift/null_xorshift.c ^
            src/rng/xorshift/xorshift.c ^
            src/rng/xorshift/xorshift32.c ^
            src/rng/xorshift/xorshift64.c ^
            src/rng/xorshift/xorshift96.c ^
            src/rng/xorshift/xorshift128.c ^
-           src/rng/xorshift_plus/null_xorshift_plus.c ^
            src/rng/xorshift_plus/xorshift_plus.c ^
            src/rng/xorshift_plus/xorshift128plus.c
 if %errorlevel% neq 0 exit /b
