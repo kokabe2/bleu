@@ -20,6 +20,11 @@ class QueueTest : public ::testing::Test {
 
 TEST_F(QueueTest, ConditionAfterNew) { AssertInitialCondition(); }
 
+TEST_F(QueueTest, NewWithCapacityZeroOrLess) {
+  EXPECT_EQ(NULL, queue->New(0));
+  EXPECT_EQ(NULL, queue->New(-16));
+}
+
 TEST_F(QueueTest, Enqueue) {
   for (int i = 0; i < 16; ++i) queue->Enqueue(q, i);
 

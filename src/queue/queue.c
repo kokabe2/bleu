@@ -15,8 +15,9 @@ typedef struct QueueStruct {
   int tail;
 } QueueStruct;
 
+inline static bool IsValid(int capacity) { return capacity > 0; }
 static Queue New(int capacity) {
-  Queue self = (Queue)heap->New(sizeof(QueueStruct));
+  Queue self = IsValid(capacity) ? (Queue)heap->New(sizeof(QueueStruct)) : NULL;
   if (!self) return self;
   self->capacity = capacity;
   self->buffer = (uint8_t*)heap->New(capacity);
