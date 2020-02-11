@@ -16,6 +16,7 @@ class XorshiftPlusTest : public ::testing::Test {
   virtual void SetUp() { x = NULL; }
   virtual void TearDown() { xorshiftPlus->Delete(&x); }
   void AssertRandomness() {
+    ASSERT_TRUE(x != NULL);
     for (int i = 0; i < sizeof(randoms) / sizeof(uint64_t); ++i) {
       randoms[i] = xorshiftPlus->Generate(x);
       for (int j = 0; j < i; ++j) ASSERT_NE(randoms[i], randoms[j]);
@@ -23,12 +24,27 @@ class XorshiftPlusTest : public ::testing::Test {
   }
 };
 
-TEST_F(XorshiftPlusTest, CallMethodWithNullInstance) {
-  uint64_t seeds[] = {1, 2, 3, 4};
+TEST_F(XorshiftPlusTest, XorshiftPlus128) {
+  std::random_device rnd;
+  uint64_t seeds[] = {rnd(), rnd(), rnd(), rnd()};
 
-  xorshiftPlus->Delete(NULL);
-  xorshiftPlus->Give(NULL, seeds);
-  EXPECT_EQ(0, xorshiftPlus->Generate(NULL));
+  x = xorshift128plus->New();
+  xorshiftPlus->Give(x, seeds);
+
+  AssertRandomness();
+}
+
+TEST_F(XorshiftPlusTest, Delete) {
+  x = xorshift128plus->New();
+
+  xorshiftPlus->Delete(&x);
+
+  ASSERT_EQ(NULL, x);
+}
+
+TEST_F(XorshiftPlusTest, DeleteMultipleTimes) {
+  xorshiftPlus->Delete(&x);
+  xorshiftPlus->Delete(&x);
 
   SUCCEED();
 }
@@ -38,7 +54,7 @@ TEST_F(XorshiftPlusTest, GiveWithNullSeeds) {
 
   xorshiftPlus->Give(x, NULL);  // No effect
 
-  SUCCEED();
+  AssertRandomness();
 }
 
 TEST_F(XorshiftPlusTest, GiveWithSeedsAllZero) {
@@ -50,12 +66,12 @@ TEST_F(XorshiftPlusTest, GiveWithSeedsAllZero) {
   AssertRandomness();
 }
 
-TEST_F(XorshiftPlusTest, XorshiftPlus128) {
-  std::random_device rnd;
-  uint64_t seeds[] = {rnd(), rnd(), rnd(), rnd()};
+TEST_F(XorshiftPlusTest, CallMethodWithNullInstance) {
+  uint64_t seeds[] = {1, 2, 3, 4};
 
-  x = xorshift128plus->New();
-  xorshiftPlus->Give(x, seeds);
+  xorshiftPlus->Delete(NULL);
+  xorshiftPlus->Give(NULL, seeds);
+  EXPECT_EQ(0, xorshiftPlus->Generate(NULL));
 
-  AssertRandomness();
+  SUCCEED();
 }
