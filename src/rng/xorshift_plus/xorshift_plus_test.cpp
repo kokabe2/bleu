@@ -43,6 +43,8 @@ TEST_F(XorshiftPlusTest, Delete) {
 }
 
 TEST_F(XorshiftPlusTest, DeleteMultipleTimes) {
+  x = xorshift128plus->New();
+
   xorshiftPlus->Delete(&x);
   xorshiftPlus->Delete(&x);
 
