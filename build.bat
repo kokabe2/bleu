@@ -16,7 +16,6 @@ mkdir %OUTPUT_DIR% > NUL 2>&1
            src/list/list_node.c ^
            src/list/list.c ^
            src/queue/queue.c ^
-           src/rng/xorshift/null_xorshift.c ^
            src/rng/xorshift/xorshift.c ^
            src/rng/xorshift/xorshift32.c ^
            src/rng/xorshift/xorshift64.c ^

@@ -10,7 +10,6 @@ add_library(
     list/list_node.c
     list/list.c
     queue/queue.c
-    rng/xorshift/null_xorshift.c
     rng/xorshift/xorshift.c
     rng/xorshift/xorshift32.c
     rng/xorshift/xorshift64.c
@@ -31,7 +30,6 @@ add_executable(
     list/list_node_test.cpp
     list/list_test.cpp
     queue/queue_test.cpp
-    rng/xorshift/null_xorshift_test.cpp
     rng/xorshift/xorshift_test.cpp
     rng/xorshift_plus/null_xorshift_plus_test.cpp
     rng/xorshift_plus/xorshift_plus_test.cpp
