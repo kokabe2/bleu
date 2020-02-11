@@ -5,24 +5,15 @@
 extern "C" {
 #include "heap_usage.h"
 #include "heap_usage_internal.h"
+#include "usage_warning_spy.h"
 }
-
-namespace {
-bool was_run;
-int given_usage;
-void WarningSpy(int usage) {
-  was_run = true;
-  given_usage = usage;
-}
-}  // namespace
 
 class HeapUsageTest : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    was_run = false;
-    given_usage = 0;
+    usageWarningSpy->Reset();
     heapUsage->Clear();
-    heapUsage->SetWarning(256, WarningSpy);
+    heapUsage->SetWarning(256, usageWarningSpy->Get());
   }
   virtual void TearDown() {}
 };
@@ -31,15 +22,15 @@ TEST_F(HeapUsageTest, WarnWhenNotOverUsageLimit) {
   heapUsage_->Add(255);
   heapUsage_->WarnIfNeeded();
 
-  EXPECT_FALSE(was_run);
+  EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
 TEST_F(HeapUsageTest, WarnWhenOverUsageLimit) {
   heapUsage_->Add(256);
   heapUsage_->WarnIfNeeded();
 
-  EXPECT_TRUE(was_run);
-  EXPECT_EQ(256, given_usage);
+  EXPECT_TRUE(usageWarningSpy->WasRun());
+  EXPECT_EQ(256, usageWarningSpy->GivenUsage());
 }
 
 TEST_F(HeapUsageTest, SetWarningWithNull) {
@@ -47,7 +38,7 @@ TEST_F(HeapUsageTest, SetWarningWithNull) {
 
   heapUsage_->Add(256);
 
-  EXPECT_FALSE(was_run);
+  EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
 TEST_F(HeapUsageTest, Clear) {
@@ -56,7 +47,7 @@ TEST_F(HeapUsageTest, Clear) {
   heapUsage->Clear();
   heapUsage_->Add(1);
 
-  EXPECT_FALSE(was_run);
+  EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
 TEST_F(HeapUsageTest, SampleTransaction) {
@@ -64,16 +55,16 @@ TEST_F(HeapUsageTest, SampleTransaction) {
   heapUsage_->Subtract(192);
   heapUsage_->Add(100);
   heapUsage_->WarnIfNeeded();
-  EXPECT_FALSE(was_run);
+  EXPECT_FALSE(usageWarningSpy->WasRun());
 
   heapUsage_->Add(32);
   heapUsage_->Subtract(32);
   heapUsage_->Add(128);
   heapUsage_->WarnIfNeeded();
-  EXPECT_FALSE(was_run);
+  EXPECT_FALSE(usageWarningSpy->WasRun());
 
   heapUsage_->Add(64);
   heapUsage_->WarnIfNeeded();
-  EXPECT_TRUE(was_run);
-  EXPECT_EQ(292, given_usage);
+  EXPECT_TRUE(usageWarningSpy->WasRun());
+  EXPECT_EQ(292, usageWarningSpy->GivenUsage());
 }
