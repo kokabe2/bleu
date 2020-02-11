@@ -86,9 +86,7 @@ static void Clear(Queue self) {
   self->tail = 0;
 }
 static int UsedSize(Queue self) { return self ? self->used : 0; }
-static int AvailableSize(Queue self) {
-  return self ? self->capacity - self->used : 0;
-}
+static int AvailableSize(Queue self) { return self ? available_size(self) : 0; }
 static const QueueMethodStruct kTheMethod = {
     .New = New,
     .Delete = Delete,
