@@ -6,7 +6,6 @@
 #include <stdint.h>
 
 typedef struct QueueStruct* Queue;
-
 typedef struct {
   Queue (*New)(int capacity);
   void (*Delete)(Queue* self);

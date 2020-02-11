@@ -7,7 +7,6 @@
 #include "deleter_interface.h"
 
 typedef struct ListStruct* List;
-
 typedef struct {
   List (*New)(void);
   void (*Delete)(List* self);

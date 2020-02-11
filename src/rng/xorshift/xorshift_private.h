@@ -10,7 +10,6 @@ typedef struct XorshiftStruct {
   uint32_t* state;
   XorshiftAbstractMethod impl;
 } XorshiftStruct;
-
 typedef struct {
   Xorshift (*New)(int state_size, XorshiftAbstractMethod impl);
 } XorshiftPrivateMethodStruct;
