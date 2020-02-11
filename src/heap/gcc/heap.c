@@ -15,7 +15,7 @@ static void* New(int size) {
 }
 static void Delete(void** memory) {
   if (!memory) return;
-  heapUsage_->Subtract(malloc_usable_size(memory));
+  heapUsage_->Subtract(malloc_usable_size(*memory));
   free(*memory);
   *memory = NULL;
 }
