@@ -4,7 +4,6 @@
 #define SRC_LIST_LIST_NODE_H_
 
 typedef struct ListNodeStruct* ListNode;
-
 typedef struct {
   ListNode (*New)(const void* item);
   void (*Delete)(ListNode* self);

@@ -7,7 +7,6 @@
 
 typedef uintptr_t IoAddress;
 typedef uint32_t IoData;
-
 typedef struct {
   void (*Write)(IoAddress offset, IoData data);
   void (*Add)(IoAddress offset, IoData data);

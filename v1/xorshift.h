@@ -6,7 +6,6 @@
 #include <stdint.h>
 
 typedef struct XorshiftStruct* Xorshift;
-
 typedef struct {
   void (*Delete)(Xorshift* self);
   void (*Give)(Xorshift self, const uint32_t* seeds);
