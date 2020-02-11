@@ -4,6 +4,7 @@
 
 extern "C" {
 #include "heap.h"
+#include "heap_usage.h"
 #include "usage_warning_spy.h"
 }
 
@@ -12,8 +13,8 @@ class HeapTest : public ::testing::Test {
   char* c;
   virtual void SetUp() {
     usageWarningSpy->Reset();
-    heap->ClearUsage();
-    heap->SetUsageWarning(256, usageWarningSpy->Get());
+    heapUsage->Clear();
+    heapUsage->SetWarning(256, usageWarningSpy->Get());
     c = (char*)heap->New(128);
   }
   virtual void TearDown() { heap->Delete((void**)&c); }
@@ -43,31 +44,12 @@ TEST_F(HeapTest, DeleteWithNull) {
   SUCCEED();
 }
 
-TEST_F(HeapTest, WarnWhenOverUsageLimit) {
+TEST_F(HeapTest, HeapUsage) {
   EXPECT_FALSE(usageWarningSpy->WasRun());
   void* v = (void*)heap->New(128);
   EXPECT_TRUE(usageWarningSpy->WasRun());
   EXPECT_GE(usageWarningSpy->GivenUsage(),
             256);  // Actual usage is implementation-dependent.
-
-  heap->Delete((void**)&v);
-}
-
-TEST_F(HeapTest, SetUsageWarningWithNull) {
-  heap->SetUsageWarning(256, NULL);
-
-  void* v = (void*)heap->New(128);
-
-  EXPECT_FALSE(usageWarningSpy->WasRun());
-
-  heap->Delete((void**)&v);
-}
-
-TEST_F(HeapTest, ClearUsage) {
-  heap->ClearUsage();
-
-  void* v = (void*)heap->New(128);
-  EXPECT_FALSE(usageWarningSpy->WasRun());
 
   heap->Delete((void**)&v);
 }
