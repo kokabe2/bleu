@@ -4,55 +4,52 @@
 
 extern "C" {
 #include "heap.h"
+#include "heap_usage.h"
+#include "usage_warning_spy.h"
 }
 
-TEST(HeapTest, HowToUse) {
-  char* c = (char*)heap->New(128);
+class HeapTest : public ::testing::Test {
+ protected:
+  char* c;
+  virtual void SetUp() {
+    usageWarningSpy->Reset();
+    heapUsage->Clear();
+    heapUsage->SetWarning(256, usageWarningSpy->Get());
+    c = (char*)heap->New(128);
+  }
+  virtual void TearDown() { heap->Delete((void**)&c); }
+};
 
+TEST_F(HeapTest, New) {
   EXPECT_TRUE(c != NULL);
   for (int i = 0; i < 128; ++i) EXPECT_EQ(0, c[i]) << "Failure at index " << i;
+}
 
+TEST_F(HeapTest, Delete) {
   heap->Delete((void**)&c);
 
   EXPECT_EQ(NULL, c);
 }
 
-TEST(HeapTest, DeleteWithNull) {
+TEST_F(HeapTest, DeleteMultipleTimes) {
+  heap->Delete((void**)&c);
+  heap->Delete((void**)&c);
+
+  SUCCEED();
+}
+
+TEST_F(HeapTest, DeleteWithNull) {
   heap->Delete(NULL);
 
   SUCCEED();
 }
 
-TEST(HeapTest, DeleteMultipleTimes) {
-  char* c = (char*)heap->New(128);
+TEST_F(HeapTest, HeapUsage) {
+  EXPECT_FALSE(usageWarningSpy->WasRun());
+  void* v = (void*)heap->New(128);
+  EXPECT_TRUE(usageWarningSpy->WasRun());
+  EXPECT_GE(usageWarningSpy->GivenUsage(),
+            256);  // Actual usage is implementation-dependent.
 
-  heap->Delete((void**)&c);
-  heap->Delete((void**)&c);
-
-  SUCCEED();
-}
-
-namespace {
-bool is_over_limit;
-int given_usage;
-void WarningSpy(int usage) {
-  is_over_limit = true;
-  given_usage = usage;
-}
-}  // namespace
-TEST(HeapTest, WarnWhenOverUsageLimit) {
-  is_over_limit = false;
-  given_usage = 0;
-  heap->ClearUsage();
-
-  heap->SetUsageWarning(128, WarningSpy);
-
-  void* v1 = (char*)heap->New(1);
-  EXPECT_FALSE(is_over_limit);
-  void* v2 = (char*)heap->New(128);
-  EXPECT_TRUE(is_over_limit);
-  EXPECT_GE(given_usage, 1 + 128);  // Actual usage is implementation-dependent.
-
-  heap->Delete((void**)&v1);
-  heap->Delete((void**)&v2);
+  heap->Delete((void**)&v);
 }
