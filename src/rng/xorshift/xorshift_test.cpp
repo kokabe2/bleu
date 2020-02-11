@@ -19,39 +19,13 @@ class XorshiftTest : public ::testing::Test {
   virtual void SetUp() { x = NULL; }
   virtual void TearDown() { xorshift->Delete(&x); }
   void AssertRandomness() {
+    ASSERT_TRUE(x != NULL);
     for (int i = 0; i < sizeof(randoms) / sizeof(uint32_t); ++i) {
       randoms[i] = xorshift->Generate(x);
       for (int j = 0; j < i; ++j) ASSERT_NE(randoms[i], randoms[j]);
     }
   }
 };
-
-TEST_F(XorshiftTest, CallMethodWithNullInstance) {
-  uint32_t seeds[] = {1, 2, 3, 4};
-
-  xorshift->Delete(NULL);
-  xorshift->Give(NULL, seeds);
-  EXPECT_EQ(0, xorshift->Generate(NULL));
-
-  SUCCEED();
-}
-
-TEST_F(XorshiftTest, GiveWithNullSeeds) {
-  x = xorshift32->New();
-
-  xorshift->Give(x, NULL);  // No effect
-
-  SUCCEED();
-}
-
-TEST_F(XorshiftTest, GiveWithSeedsAllZero) {
-  uint32_t seeds[4] = {0};
-  x = xorshift128->New();
-
-  xorshift->Give(x, seeds);  // No effect
-
-  AssertRandomness();
-}
 
 TEST_F(XorshiftTest, Xorshift32) {
   std::random_device rnd;
@@ -91,4 +65,48 @@ TEST_F(XorshiftTest, Xorshift128) {
   xorshift->Give(x, seeds);
 
   AssertRandomness();
+}
+
+TEST_F(XorshiftTest, Delete) {
+  x = xorshift64->New();
+
+  xorshift->Delete(&x);
+
+  ASSERT_EQ(NULL, x);
+}
+
+TEST_F(XorshiftTest, DeleteMultipleTimes) {
+  x = xorshift96->New();
+
+  xorshift->Delete(&x);
+  xorshift->Delete(&x);
+
+  SUCCEED();
+}
+
+TEST_F(XorshiftTest, GiveWithNullSeeds) {
+  x = xorshift32->New();
+
+  xorshift->Give(x, NULL);  // No effect
+
+  AssertRandomness();
+}
+
+TEST_F(XorshiftTest, GiveWithSeedsAllZero) {
+  uint32_t seeds[4] = {0};
+  x = xorshift128->New();
+
+  xorshift->Give(x, seeds);  // No effect
+
+  AssertRandomness();
+}
+
+TEST_F(XorshiftTest, CallMethodWithNullInstance) {
+  uint32_t seeds[] = {1, 2, 3, 4};
+
+  xorshift->Delete(NULL);
+  xorshift->Give(NULL, seeds);
+  EXPECT_EQ(0, xorshift->Generate(NULL));
+
+  SUCCEED();
 }
