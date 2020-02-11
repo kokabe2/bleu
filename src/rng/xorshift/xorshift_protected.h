@@ -1,7 +1,7 @@
 // Copyright(c) 2020 Ken Okabe
 // This software is released under the MIT License, see LICENSE.
-#ifndef SRC_RNG_XORSHIFT_XORSHIFT_PRIVATE_H_
-#define SRC_RNG_XORSHIFT_XORSHIFT_PRIVATE_H_
+#ifndef SRC_RNG_XORSHIFT_XORSHIFT_PROTECTED_H_
+#define SRC_RNG_XORSHIFT_XORSHIFT_PROTECTED_H_
 
 #include "xorshift.h"
 
@@ -12,9 +12,9 @@ typedef struct XorshiftStruct {
 } XorshiftStruct;
 typedef struct {
   Xorshift (*New)(int state_size, XorshiftAbstractMethod impl);
-} XorshiftPrivateMethodStruct;
-typedef const XorshiftPrivateMethodStruct* XorshiftPrivateMethod;
+} XorshiftProtectedMethodStruct;
+typedef const XorshiftProtectedMethodStruct* XorshiftProtectedMethod;
 
-extern const XorshiftPrivateMethod _xorshift;
+extern const XorshiftProtectedMethod _xorshift;
 
-#endif  // SRC_RNG_XORSHIFT_XORSHIFT_PRIVATE_H_
+#endif  // SRC_RNG_XORSHIFT_XORSHIFT_PROTECTED_H_

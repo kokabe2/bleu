@@ -6,21 +6,21 @@
 #include <string.h>
 
 #include "heap.h"
-#include "xorshift_plus_private.h"
+#include "xorshift_plus_protected.h"
 
 static XorshiftPlus New(int state_size, XorshiftPlusAbstractMethod impl) {
   XorshiftPlus self = (XorshiftPlus)heap->New(sizeof(XorshiftPlusStruct));
-  if (!self) return NULL;
+  if (!self) return self;
   self->state_size = state_size;
   self->impl = impl;
   self->state = (uint64_t*)heap->New(state_size);
   if (!self->state) heap->Delete((void**)&self);
   return self;
 }
-static const XorshiftPlusPrivateMethodStruct kPrivateMethod = {
+static const XorshiftPlusProtectedMethodStruct kProtectedMethod = {
     .New = New,
 };
-const XorshiftPlusPrivateMethod _xorshiftPlus = &kPrivateMethod;
+const XorshiftPlusProtectedMethod _xorshiftPlus = &kProtectedMethod;
 
 static void Delete(XorshiftPlus* self) {
   if (!self || !*self) return;
