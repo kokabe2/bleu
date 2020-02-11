@@ -10,7 +10,7 @@
 
 static XorshiftPlus New(int state_size, XorshiftPlusAbstractMethod impl) {
   XorshiftPlus self = (XorshiftPlus)heap->New(sizeof(XorshiftPlusStruct));
-  if (!self) return NULL;
+  if (!self) return self;
   self->state_size = state_size;
   self->impl = impl;
   self->state = (uint64_t*)heap->New(state_size);
