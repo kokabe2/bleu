@@ -4,6 +4,7 @@
 #define SRC_HEAP_HEAP_USAGE_INTERNAL_H_
 
 typedef struct {
+  int (*Get)(void);
   void (*Add)(int amount);
   void (*Subtract)(int amount);
   void (*WarnIfNeeded)(void);

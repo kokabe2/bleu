@@ -22,6 +22,7 @@ TEST_F(HeapUsageTest, WarnWhenNotOverUsageLimit) {
   heapUsage_->Add(255);
   heapUsage_->WarnIfNeeded();
 
+  EXPECT_EQ(255, heapUsage_->Get());
   EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
@@ -29,6 +30,7 @@ TEST_F(HeapUsageTest, WarnWhenOverUsageLimit) {
   heapUsage_->Add(256);
   heapUsage_->WarnIfNeeded();
 
+  EXPECT_EQ(256, heapUsage_->Get());
   EXPECT_TRUE(usageWarningSpy->WasRun());
   EXPECT_EQ(256, usageWarningSpy->GivenUsage());
 }
@@ -38,6 +40,7 @@ TEST_F(HeapUsageTest, SetWarningWithNull) {
 
   heapUsage_->Add(256);
 
+  EXPECT_EQ(256, heapUsage_->Get());
   EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
@@ -47,6 +50,7 @@ TEST_F(HeapUsageTest, Clear) {
   heapUsage->Clear();
   heapUsage_->Add(1);
 
+  EXPECT_EQ(1, heapUsage_->Get());
   EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
@@ -55,16 +59,19 @@ TEST_F(HeapUsageTest, SampleTransaction) {
   heapUsage_->Subtract(192);
   heapUsage_->Add(100);
   heapUsage_->WarnIfNeeded();
+  EXPECT_EQ(100, heapUsage_->Get());
   EXPECT_FALSE(usageWarningSpy->WasRun());
 
   heapUsage_->Add(32);
   heapUsage_->Subtract(32);
   heapUsage_->Add(128);
   heapUsage_->WarnIfNeeded();
+  EXPECT_EQ(228, heapUsage_->Get());
   EXPECT_FALSE(usageWarningSpy->WasRun());
 
   heapUsage_->Add(64);
   heapUsage_->WarnIfNeeded();
+  EXPECT_EQ(292, heapUsage_->Get());
   EXPECT_TRUE(usageWarningSpy->WasRun());
   EXPECT_EQ(292, usageWarningSpy->GivenUsage());
 }

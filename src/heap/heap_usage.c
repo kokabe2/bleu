@@ -10,6 +10,7 @@ static int the_usage = 0;
 static int the_usage_for_warning = 0;
 static WarningDelegate the_warning_delegate = NULL;
 
+static int Get(void) { return the_usage; }
 static void Add(int amount) { the_usage += amount; }
 static void Subtract(int amount) { the_usage -= amount; }
 static void WarnIfNeeded(void) {
@@ -17,7 +18,7 @@ static void WarnIfNeeded(void) {
     the_warning_delegate(the_usage);
 }
 static const HeapUsageInternalMethodStruct kInternalMethod = {
-    .Add = Add, .Subtract = Subtract, .WarnIfNeeded = WarnIfNeeded,
+    .Get = Get, .Add = Add, .Subtract = Subtract, .WarnIfNeeded = WarnIfNeeded,
 };
 const HeapUsageInternalMethod heapUsage_ = &kInternalMethod;
 
