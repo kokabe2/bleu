@@ -88,6 +88,14 @@ TEST_F(ListTest, PopItemsRandomly) {
   EXPECT_EQ(kNumOfItems - 5, list->Count(l));
 }
 
+TEST_F(ListTest, PopWithIndexLessThanZero) {
+  EXPECT_EQ(NULL, list->Pop(l, -243));
+}
+
+TEST_F(ListTest, GetWithIndexLessThanZero) {
+  EXPECT_EQ(NULL, list->Get(l, -1));
+}
+
 TEST_F(ListTest, ClearItems) {
   AddAllItems();
 
@@ -101,10 +109,20 @@ TEST_F(ListTest, DeleteItems) {
 
   list->Delete(&l);
 
+  EXPECT_EQ(NULL, l);
   EXPECT_EQ(kNumOfItems, deletion_count);
   EXPECT_EQ(&items[kNumOfItems - 1], last_deleted_item);
   EXPECT_EQ(0, list->Count(l));
   EXPECT_EQ(NULL, list->Get(l, 0));
+}
+
+TEST_F(ListTest, DeleteMultipleTimes) {
+  AddAllItems();
+
+  list->Delete(&l);
+  list->Delete(&l);
+
+  SUCCEED();
 }
 
 TEST_F(ListTest, SampleTransaction) {
@@ -135,25 +153,6 @@ TEST_F(ListTest, SampleTransaction) {
   EXPECT_EQ(kNumOfItems, list->Count(l));
   for (int i = 0; i < kNumOfItems; ++i)
     EXPECT_EQ(&items[i], list->Get(l, i)) << "Failure at index " << i;
-}
-
-TEST_F(ListTest, CallMethodWithNullInstance) {
-  list->Delete(NULL);
-  EXPECT_EQ(0, list->Count(NULL));
-  EXPECT_EQ(NULL, list->Get(NULL, 0));
-  list->Add(NULL, NULL);
-  list->Clear(NULL);
-  EXPECT_EQ(NULL, list->Find(NULL, items));
-  EXPECT_EQ(NULL, list->Pop(NULL, 0));
-  list->SetItemComparer(NULL, &kComparer);
-  list->SetItemDeleter(NULL, &kDeleter);
-
-  SUCCEED();
-}
-
-TEST_F(ListTest, CallMethodWithIndexLessThanZero) {
-  EXPECT_EQ(NULL, list->Get(l, -1));
-  EXPECT_EQ(NULL, list->Pop(l, -243));
 }
 
 TEST_F(ListTest, FindWithNotAddedItem) {
@@ -197,4 +196,18 @@ TEST_F(ListTest, SetItemDeleterWithNull) {
 
   EXPECT_EQ(kNumOfItems, deletion_count);
   EXPECT_EQ(&items[kNumOfItems - 1], last_deleted_item);
+}
+
+TEST_F(ListTest, CallMethodWithNullInstance) {
+  list->Delete(NULL);
+  EXPECT_EQ(0, list->Count(NULL));
+  EXPECT_EQ(NULL, list->Get(NULL, 0));
+  list->Add(NULL, NULL);
+  list->Clear(NULL);
+  EXPECT_EQ(NULL, list->Find(NULL, items));
+  EXPECT_EQ(NULL, list->Pop(NULL, 0));
+  list->SetItemComparer(NULL, &kComparer);
+  list->SetItemDeleter(NULL, &kDeleter);
+
+  SUCCEED();
 }
