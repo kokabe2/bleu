@@ -26,6 +26,7 @@ add_executable(
     main.cpp
     heap/heap_test.cpp
     heap/heap_usage_test.cpp
+    heap/usage_warning_spy.c
     io_data/mock_io_data_test.cpp
     list/list_node_test.cpp
     list/list_test.cpp
