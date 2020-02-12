@@ -1,0 +1,120 @@
+﻿
+@startuml class_diagram
+skinparam {
+    defaultFontName Ricty Diminished
+    monochrome true
+}
+
+package Bleu {
+    folder heap {
+        class Heap {
+            + {static} New(int): void*
+            + {static} Delete(void**)
+        }
+        class HeapUsage {
+            ~ {static} Add(int)
+            ~ {static} Subtract(int)
+            ~ {static} WarnIfNeeded(void)
+            + {static} Clear(void)
+            + {static} SetWarning(int, WarningDelegate)
+        }
+    }
+    folder io_data {
+        class IoData {
+            + {static} Write(IoAddress, IoData)
+            + {static} Add(IoAddress, IoData)
+            + {static} Remove(IoAddress, IoData)
+            + {static} Read(IoAddress): IoData
+        }
+    }
+    folder list {
+        class ListNode {
+            ~ New(const void*): ListNode
+            ~ Delete(ListNode*)
+            ~ GetItem(ListNode): void*
+            ~ SetItem(ListNode, const void*)
+            ~ GetNext(ListNode): ListNode
+            ~ SetNext(ListNode, ListNode)
+        }
+        class List {
+            + New(const void*): List
+            + Delete(List*)
+            + Count(List): int
+            + Get(List, int): void*
+            + Add(List, const void*)
+            + Clear(List)
+            + Find(List, const void*): void*
+            + Pop(List, int): void*
+            + SetItemComparer(List, ComparerInterface)
+            + SetItemDeleter(List, DeleterInterface)
+        }
+    }
+    interface Comparer {
+        + Compare(const void*, const void*): int
+    }
+    interface Deleter {
+        + Delete(void**)
+    }
+    folder queue {
+        class Queue {
+            + New(int): Queue
+            + Delete(Queue*)
+            + Enqueue(Queue, uint8_t)
+            + Dequeue(Queue): uint8_t
+            + Add(Queue, int, const void* data)
+            + Pop(Queue, int, void*)
+            + Clear(Queue)
+            + UsedSize(Queue)
+            + AvailableSize(Queue)
+        }
+    }
+    folder rng {
+        folder xorshift {
+            abstract Xorshift {
+                # New(int, XorshiftAbstractMethod): Xorshift
+                + Delete(Xorshift*)
+                + Give(Xorshift, const uint32_t*)
+                + {abstract} Generate(Xorshift): uint32_t
+            }
+            class Xorshift32 {
+                + New(void): Xorshift
+            }
+            class Xorshift64 {
+                + New(void): Xorshift
+            }
+            class Xorshift96 {
+                + New(void): Xorshift
+            }
+            class Xorshift128 {
+                + New(void): Xorshift
+            }
+        }
+        folder xorshift_plus {
+            abstract XorshiftPlus {
+                # New(int, XorshiftPlusAbstractMethod): XorshiftPlus
+                + Delete(XorshiftPlus*)
+                + Give(XorshiftPlus, const uint64_t*)
+                + {abstract} Generate(XorshiftPlus): uint64_t
+            }
+            class Xorshift128Plus {
+                + New(void): XorshiftPlus
+            }
+        }
+    }
+
+    HeapUsage <-- Heap
+    Heap <-- ListNode
+    Heap <-- List
+    ListNode <-- List
+    Comparer <-- List
+    Deleter <-- List
+    Heap <-- Queue
+    Heap <-- Xorshift
+    Xorshift <|-- Xorshift32
+    Xorshift <|-- Xorshift64
+    Xorshift <|-- Xorshift96
+    Xorshift <|-- Xorshift128
+    Heap <-- XorshiftPlus
+    XorshiftPlus <|-- Xorshift128Plus
+}
+@enduml
