@@ -20,3 +20,9 @@ Bleu is a library for essential utilities.
 - RNG
   - Xorshift
   - Xorshift+
+
+## Implementation
+
+### Class diagram
+
+![class diagram](doc/class_diagram.svg)
