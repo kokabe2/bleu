@@ -5,6 +5,7 @@
 
 typedef void (*WarningDelegate)(int usage);
 typedef struct {
+  int (*Get)(void);
   void (*Clear)(void);
   void (*SetWarning)(int usage, WarningDelegate warning);
 } HeapUsageMethodStruct;

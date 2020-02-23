@@ -15,6 +15,7 @@ package Bleu {
             ~ {static} Add(int)
             ~ {static} Subtract(int)
             ~ {static} WarnIfNeeded(void)
+            + {static} Get(void): int
             + {static} Clear(void)
             + {static} SetWarning(int, WarningDelegate)
         }
