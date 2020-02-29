@@ -53,7 +53,6 @@ static void DeleteAllNodes(List self) {
     DeleteItem(self, ln);
     listNode->Delete(&ln);
   }
-  self->tail = NULL;
 }
 
 static void Delete(List* self) {
