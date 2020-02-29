@@ -8,6 +8,7 @@
 #include "heap.h"
 #include "list_node.h"
 #include "null_comparer.h"
+#include "null_deleter.h"
 
 typedef struct ListStruct {
   ListNode head;
@@ -17,18 +18,14 @@ typedef struct ListStruct {
   DeleterInterfaceStruct dis;
 } ListStruct;
 
-static void DeleteDummy(void** x) {}
-
-static const DeleterInterfaceStruct kDeleterDummy = {
-    .Delete = DeleteDummy,
-};
-
 inline static void SetItemComparer(List self, ComparerInterface cis) { self->cis = *cis; }
+
+inline static void SetItemDeleter(List self, DeleterInterface dis) { self->dis = *dis; }
 
 static List New(void) {
   List self = (List)heap->New(sizeof(ListStruct));
   SetItemComparer(self, NullComparer);
-  self->dis = kDeleterDummy;
+  SetItemDeleter(self, NullDeleter);
   return self;
 }
 
@@ -133,8 +130,6 @@ static void* Pop(List self, int index) {
   ListNode ln = Validate(self, index) ? PopNode(self, index) : NULL;
   return ln ? PopItem(ln) : NULL;
 }
-
-static void SetItemDeleter(List self, DeleterInterface dis) { self->dis = *dis; }
 
 static const ListMethodStruct kTheMethod = {
     .New = New,
