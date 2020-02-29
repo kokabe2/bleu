@@ -71,8 +71,12 @@ static ListNode GetNode(List self, int index) {
 }
 
 static void* Get(List self, int index) {
-  ListNode ln = Validate(self, index) ? GetNode(self, index) : NULL;
-  return ln ? listNode->GetItem(ln) : NULL;
+  if (Validate(self, index)) {
+    ListNode ln = GetNode(self, index);
+    return listNode->GetItem(ln);
+  } else {
+    return NULL;
+  }
 }
 
 inline static void AddToLastNode(List self, ListNode ln) { listNode->SetNext(self->tail, ln); }
