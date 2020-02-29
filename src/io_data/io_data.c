@@ -33,10 +33,7 @@ static void Remove16bit(IoAddress offset, IoData data) {
 }
 static IoData Read16bit(IoAddress offset) { return *(uint16_t *)offset; }
 static const IoInterfaceStruct kImplFor16bit = {
-    .Write = Write16bit,
-    .Add = Add16bit,
-    .Remove = Remove16bit,
-    .Read = Read16bit,
+    .Write = Write16bit, .Add = Add16bit, .Remove = Remove16bit, .Read = Read16bit,
 };
 
 static void Write32bit(IoAddress offset, IoData data) {
@@ -53,10 +50,7 @@ static void Remove32bit(IoAddress offset, IoData data) {
 }
 static IoData Read32bit(IoAddress offset) { return *(uint32_t *)offset; }
 static const IoInterfaceStruct kImplFor32bit = {
-    .Write = Write32bit,
-    .Add = Add32bit,
-    .Remove = Remove32bit,
-    .Read = Read32bit,
+    .Write = Write32bit, .Add = Add32bit, .Remove = Remove32bit, .Read = Read32bit,
 };
 
 static const IoDataMethodStruct kTheMethod = {
