@@ -15,12 +15,12 @@ typedef struct ListStruct {
   ListNode tail;
   int count;
   ComparerInterfaceStruct comparer;
-  DeleterInterfaceStruct dis;
+  DeleterInterfaceStruct deleter;
 } ListStruct;
 
 inline static void SetItemComparer(List self, ComparerInterface comparer) { self->comparer = *comparer; }
 
-inline static void SetItemDeleter(List self, DeleterInterface dis) { self->dis = *dis; }
+inline static void SetItemDeleter(List self, DeleterInterface deleter) { self->deleter = *deleter; }
 
 static List New(void) {
   List self = (List)heap->New(sizeof(ListStruct));
@@ -44,7 +44,7 @@ inline static ListNode PopFirstNode(List self) {
 
 inline static void DeleteNode(List self, ListNode ln) {
   void* item = listNode->GetItem(ln);
-  self->dis.Delete(&item);
+  self->deleter.Delete(&item);
   listNode->Delete(&ln);
 }
 
