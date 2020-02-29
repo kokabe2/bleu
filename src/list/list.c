@@ -77,13 +77,15 @@ static void* Get(List self, int index) {
 
 inline static void AddToLastNode(List self, ListNode ln) { listNode->SetNext(self->tail, ln); }
 
+inline static void SetLastNode(List self, ListNode ln) { self->tail = ln; }
+
 inline static void AddNode(List self, ListNode ln) {
   if (IsEmpty(self))
     SetFirstNode(self, ln);
   else
     AddToLastNode(self, ln);
 
-  self->tail = ln;
+  SetLastNode(self, ln);
   self->count++;
 }
 
@@ -114,7 +116,7 @@ inline static ListNode PopNode(List self, int index) {
   ListNode next = listNode->GetNext(ln);
   listNode->SetNext(pre, next);
 
-  if (!next) self->tail = pre;
+  if (!next) SetLastNode(self, pre);
   self->count--;
   return ln;
 }
