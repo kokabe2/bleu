@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include "../heap_usage_internal.h"
+#include "heap_usage.h"
 
 static void *New(int size) {
   void *memory = calloc(1, size);
@@ -25,9 +26,9 @@ const HeapMethod heap = &kTheMethod;
 
 extern uint32_t *heap_area;
 extern int heap_area_size;
-inline static bool CanAllocate(size_t size) { return heapUsage_->Get() <= (heap_area_size - size); }
+inline static bool CanAllocate(size_t size) { return heapUsage->Get() <= (heap_area_size - size); }
 inline static char *Allocate(size_t size) {
-  char *allocated = (char *)(heap_area + heapUsage_->Get());
+  char *allocated = (char *)(heap_area + heapUsage->Get());
   heapUsage_->Add(size);
   return allocated;
 }
