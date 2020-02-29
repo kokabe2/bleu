@@ -43,7 +43,7 @@ class ListTest : public ::testing::Test {
   }
 
   virtual void TearDown() {
-    if (l) list->Delete(&l);
+    if (l != NULL) list->Delete(&l);
   }
 
   void AssertInitialCondition() {
