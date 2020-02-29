@@ -111,16 +111,22 @@ static void* Find(List self, const void* match) {
 
 inline static bool IsFirstNode(int index) { return index == 0; }
 
-inline static ListNode PopNode(List self, int index) {
-  if (IsFirstNode(index)) return PopFirstNode(self);
-
+inline static ListNode PopNodeOtherThanFirst(List self, int index) {
   ListNode pre = GetNode(self, index - 1);
   ListNode ln = listNode->GetNext(pre);
   ListNode next = listNode->GetNext(ln);
-  listNode->SetNext(pre, next);
 
-  if (!next) SetLastNode(self, pre);
+  listNode->SetNext(pre, next);
+  if (next == NULL) SetLastNode(self, pre);
+
   return ln;
+}
+
+inline static ListNode PopNode(List self, int index) {
+  if (IsFirstNode(index))
+    return PopFirstNode(self);
+  else
+    return PopNodeOtherThanFirst(self, index);
 }
 
 inline static void* PopItem(ListNode ln) {
