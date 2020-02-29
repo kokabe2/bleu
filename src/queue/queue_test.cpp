@@ -12,10 +12,11 @@ class QueueTest : public ::testing::Test {
 
   virtual void SetUp() { q = queue->New(32); }
 
-  virtual void TearDown() { queue->Delete(&q); }
+  virtual void TearDown() {
+    if (q != NULL) queue->Delete(&q);
+  }
 
   void AssertInitialCondition() {
-    ASSERT_TRUE(q != NULL);
     EXPECT_EQ(0, queue->UsedSize(q));
     EXPECT_EQ(32, queue->AvailableSize(q));
   }
@@ -23,22 +24,10 @@ class QueueTest : public ::testing::Test {
 
 TEST_F(QueueTest, ConditionAfterNew) { AssertInitialCondition(); }
 
-TEST_F(QueueTest, NewWithCapacityZeroOrLess) {
-  EXPECT_EQ(NULL, queue->New(0));
-  EXPECT_EQ(NULL, queue->New(-16));
-}
-
 TEST_F(QueueTest, Delete) {
   queue->Delete(&q);
 
   EXPECT_EQ(NULL, q);
-}
-
-TEST_F(QueueTest, DeleteMultipleTimes) {
-  queue->Delete(&q);
-  queue->Delete(&q);
-
-  SUCCEED();
 }
 
 TEST_F(QueueTest, Enqueue) {
@@ -104,12 +93,6 @@ TEST_F(QueueTest, AddMoreThanAvailableSize) {
   for (int i = 0; i < 32; ++i) EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
 }
 
-TEST_F(QueueTest, AddWithNullData) {
-  queue->Add(q, 16, NULL);
-
-  AssertInitialCondition();
-}
-
 TEST_F(QueueTest, Pop) {
   for (int i = 0; i < 24; ++i) queue->Enqueue(q, i);
   uint8_t output[9] = {0};
@@ -133,12 +116,6 @@ TEST_F(QueueTest, PopMoreThanUsedSize) {
   EXPECT_EQ(0xFF, output[24]);
   EXPECT_EQ(0, queue->UsedSize(q));
   EXPECT_EQ(32, queue->AvailableSize(q));
-}
-
-TEST_F(QueueTest, PopWithNullData) {
-  queue->Pop(q, 16, NULL);
-
-  AssertInitialCondition();
 }
 
 TEST_F(QueueTest, Clear) {
@@ -185,19 +162,4 @@ TEST_F(QueueTest, SampleTransaction) {
   for (int i = 0; i < 9; ++i) EXPECT_EQ(i, output[i]) << "Failure at index " << i;
   for (int i = 9; i < 28; ++i) EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
   AssertInitialCondition();
-}
-
-TEST_F(QueueTest, CallMethodWithNullInstance) {
-  int data;
-
-  queue->Delete(NULL);
-  queue->Enqueue(NULL, 0);
-  EXPECT_EQ(0, queue->Dequeue(NULL));
-  queue->Add(NULL, sizeof(data), &data);
-  queue->Pop(NULL, sizeof(data), &data);
-  queue->Clear(NULL);
-  EXPECT_EQ(0, queue->UsedSize(NULL));
-  EXPECT_EQ(0, queue->AvailableSize(NULL));
-
-  SUCCEED();
 }

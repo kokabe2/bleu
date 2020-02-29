@@ -15,19 +15,14 @@ typedef struct QueueStruct {
   int tail;
 } QueueStruct;
 
-inline static bool IsValid(int capacity) { return capacity > 0; }
-
 static Queue New(int capacity) {
-  Queue self = IsValid(capacity) ? (Queue)heap->New(sizeof(QueueStruct)) : NULL;
-  if (!self) return self;
+  Queue self = (Queue)heap->New(sizeof(QueueStruct));
   self->capacity = capacity;
   self->buffer = (uint8_t*)heap->New(capacity);
-  if (!self->buffer) heap->Delete((void**)&self);
   return self;
 }
 
 static void Delete(Queue* self) {
-  if (!self || !*self) return;
   heap->Delete((void**)&(*self)->buffer);
   heap->Delete((void**)self);
 }
@@ -35,7 +30,7 @@ static void Delete(Queue* self) {
 inline static bool IsBufferFull(Queue self) { return self->capacity == self->used; }
 
 static void Enqueue(Queue self, uint8_t data) {
-  if (!self || IsBufferFull(self)) return;
+  if (IsBufferFull(self)) return;
   self->buffer[self->head++] = data;
   if (self->head == self->capacity) self->head = 0;
   self->used++;
@@ -44,7 +39,7 @@ static void Enqueue(Queue self, uint8_t data) {
 inline static bool IsBufferEmpty(Queue self) { return self->used == 0; }
 
 static uint8_t Dequeue(Queue self) {
-  if (!self || IsBufferEmpty(self)) return 0;
+  if (IsBufferEmpty(self)) return 0;
   uint8_t data = self->buffer[self->tail++];
   if (self->tail == self->capacity) self->tail = 0;
   self->used--;
@@ -54,7 +49,6 @@ static uint8_t Dequeue(Queue self) {
 inline static int available_size(Queue self) { return self->capacity - self->used; }
 
 static void Add(Queue self, int size, const void* data) {
-  if (!self || !data) return;
   int copy_size = size <= available_size(self) ? size : available_size(self);
   int size_to_buffer_end = self->capacity - self->head;
   if (copy_size <= size_to_buffer_end) {
@@ -69,7 +63,6 @@ static void Add(Queue self, int size, const void* data) {
 }
 
 static void Pop(Queue self, int size, void* data) {
-  if (!self || !data) return;
   int copy_size = size <= self->used ? size : self->used;
   int size_to_buffer_end = self->capacity - self->tail;
   if (copy_size <= size_to_buffer_end) {
@@ -84,15 +77,14 @@ static void Pop(Queue self, int size, void* data) {
 }
 
 static void Clear(Queue self) {
-  if (!self) return;
   self->used = 0;
   self->head = 0;
   self->tail = 0;
 }
 
-static int UsedSize(Queue self) { return self ? self->used : 0; }
+static int UsedSize(Queue self) { return self->used; }
 
-static int AvailableSize(Queue self) { return self ? available_size(self) : 0; }
+static int AvailableSize(Queue self) { return available_size(self); }
 
 static const QueueMethodStruct kTheMethod = {
     .New = New,
