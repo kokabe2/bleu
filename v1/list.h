@@ -16,7 +16,7 @@ typedef struct {
   void (*Clear)(List self);
   void* (*Find)(List self, const void* match);
   void* (*Pop)(List self, int index);
-  void (*SetItemComparer)(List self, ComparerInterface ci);
+  void (*SetItemComparer)(List self, ComparerInterface comparer);
   void (*SetItemDeleter)(List self, DeleterInterface di);
 } ListMethodStruct;
 typedef const ListMethodStruct* ListMethod;

@@ -14,11 +14,11 @@ typedef struct ListStruct {
   ListNode head;
   ListNode tail;
   int count;
-  ComparerInterfaceStruct cis;
+  ComparerInterfaceStruct comparer;
   DeleterInterfaceStruct dis;
 } ListStruct;
 
-inline static void SetItemComparer(List self, ComparerInterface cis) { self->cis = *cis; }
+inline static void SetItemComparer(List self, ComparerInterface comparer) { self->comparer = *comparer; }
 
 inline static void SetItemDeleter(List self, DeleterInterface dis) { self->dis = *dis; }
 
@@ -97,7 +97,7 @@ static void Add(List self, const void* item) {
 static void Clear(List self) { DeleteAllNodes(self); }
 
 inline static bool Equals(List self, const void* item, const void* match) {
-  return self->cis.Compare(item, match) == 0;
+  return self->comparer.Compare(item, match) == 0;
 }
 
 static void* Find(List self, const void* match) {
