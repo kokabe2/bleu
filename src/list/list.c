@@ -128,8 +128,12 @@ inline static void* PopItem(ListNode ln) {
 }
 
 static void* Pop(List self, int index) {
-  ListNode ln = Validate(self, index) ? PopNode(self, index) : NULL;
-  return ln ? PopItem(ln) : NULL;
+  if (Validate(self, index)) {
+    ListNode ln = PopNode(self, index);
+    return PopItem(ln);
+  } else {
+    return NULL;
+  }
 }
 
 static const ListMethodStruct kTheMethod = {
