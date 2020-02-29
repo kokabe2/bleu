@@ -15,6 +15,7 @@ class HeapUsageTest : public ::testing::Test {
     heapUsage->Clear();
     heapUsage->SetWarning(256, usageWarningSpy->Get());
   }
+
   virtual void TearDown() {}
 };
 

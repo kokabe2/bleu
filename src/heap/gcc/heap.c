@@ -13,13 +13,16 @@ static void* New(int size) {
   heapUsage_->WarnIfNeeded();
   return memory;
 }
+
 static void Delete(void** memory) {
   if (!memory) return;
   heapUsage_->Subtract(malloc_usable_size(*memory));
   free(*memory);
   *memory = NULL;
 }
+
 static const HeapMethodStruct kTheMethod = {
     .New = New, .Delete = Delete,
 };
+
 const HeapMethod heap = &kTheMethod;

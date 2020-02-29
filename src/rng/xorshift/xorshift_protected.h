@@ -11,7 +11,7 @@ typedef struct XorshiftStruct {
   XorshiftAbstractMethod impl;
 } XorshiftStruct;
 typedef struct {
-  Xorshift (*New)(int state_size, XorshiftAbstractMethod impl);
+  Xorshift (*New)(int state_size, XorshiftAbstractMethod impl);  //
 } XorshiftProtectedMethodStruct;
 typedef const XorshiftProtectedMethodStruct* XorshiftProtectedMethod;
 

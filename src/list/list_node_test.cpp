@@ -11,10 +11,12 @@ class ListNodeTest : public ::testing::Test {
   char item1[8];
   ListNode ln1;
   ListNode ln2;
+
   virtual void SetUp() {
     ln1 = listNode->New(item1);
     ln2 = listNode->New(NULL);
   }
+
   virtual void TearDown() {
     listNode->Delete(&ln1);
     listNode->Delete(&ln2);

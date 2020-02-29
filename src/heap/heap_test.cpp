@@ -11,12 +11,14 @@ extern "C" {
 class HeapTest : public ::testing::Test {
  protected:
   char* c;
+
   virtual void SetUp() {
     usageWarningSpy->Reset();
     heapUsage->Clear();
     heapUsage->SetWarning(256, usageWarningSpy->Get());
     c = (char*)heap->New(128);
   }
+
   virtual void TearDown() { heap->Delete((void**)&c); }
 };
 
@@ -48,8 +50,7 @@ TEST_F(HeapTest, HeapUsage) {
   EXPECT_FALSE(usageWarningSpy->WasRun());
   void* v = (void*)heap->New(128);
   EXPECT_TRUE(usageWarningSpy->WasRun());
-  EXPECT_GE(usageWarningSpy->GivenUsage(),
-            256);  // Actual usage is implementation-dependent.
+  EXPECT_GE(usageWarningSpy->GivenUsage(), 256);  // Actual usage is implementation-dependent.
 
   heap->Delete((void**)&v);
 }

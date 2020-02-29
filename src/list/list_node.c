@@ -16,23 +16,25 @@ static ListNode New(const void* item) {
   if (self) self->item = (void*)item;
   return self;
 }
+
 static void Delete(ListNode* self) {
   if (self) heap->Delete((void**)self);
 }
+
 static void* GetItem(ListNode self) { return self ? self->item : NULL; }
+
 static void SetItem(ListNode self, const void* item) {
   if (self) self->item = (void*)item;
 }
+
 static ListNode GetNext(ListNode self) { return self ? self->next : NULL; }
+
 static void SetNext(ListNode self, ListNode next) {
   if (self) self->next = next;
 }
+
 static const ListNodeMethodStruct kTheMethod = {
-    .New = New,
-    .Delete = Delete,
-    .GetItem = GetItem,
-    .SetItem = SetItem,
-    .GetNext = GetNext,
-    .SetNext = SetNext,
+    .New = New, .Delete = Delete, .GetItem = GetItem, .SetItem = SetItem, .GetNext = GetNext, .SetNext = SetNext,
 };
+
 const ListNodeMethod listNode = &kTheMethod;

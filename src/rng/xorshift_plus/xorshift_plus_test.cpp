@@ -13,8 +13,11 @@ class XorshiftPlusTest : public ::testing::Test {
  protected:
   uint64_t randoms[1024];
   XorshiftPlus x;
+
   virtual void SetUp() { x = NULL; }
+
   virtual void TearDown() { xorshiftPlus->Delete(&x); }
+
   void AssertRandomness() {
     ASSERT_TRUE(x != NULL);
     for (int i = 0; i < sizeof(randoms) / sizeof(uint64_t); ++i) {
