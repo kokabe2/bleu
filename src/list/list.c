@@ -16,7 +16,24 @@ typedef struct ListStruct {
   DeleterInterfaceStruct dis;
 } ListStruct;
 
-static List New(void) { return (List)heap->New(sizeof(ListStruct)); }
+static int CompareDummy(const void* x, const void* y) {}
+
+static const ComparerInterfaceStruct kComparerDummy = {
+    .Compare = CompareDummy,
+};
+
+static void DeleteDummy(void** x) {}
+
+static const DeleterInterfaceStruct kDeleterDummy = {
+    .Delete = DeleteDummy,
+};
+
+static List New(void) {
+  List self = (List)heap->New(sizeof(ListStruct));
+  self->cis = kComparerDummy;
+  self->dis = kDeleterDummy;
+  return self;
+}
 
 inline static bool IsEmpty(List self) { return self->count == 0; }
 
@@ -32,7 +49,6 @@ inline static ListNode PopFirstNode(List self) {
 }
 
 inline static void DeleteItemIfNeeded(List self, ListNode ln) {
-  if (!self->dis.Delete) return;
   void* item = listNode->GetItem(ln);
   self->dis.Delete(&item);
 }
@@ -47,14 +63,13 @@ static void DeleteAllNodes(List self) {
 }
 
 static void Delete(List* self) {
-  if (!self || !*self) return;
   DeleteAllNodes(*self);
   heap->Delete((void**)self);
 }
 
-static int Count(List self) { return self ? self->count : 0; }
+static int Count(List self) { return self->count; }
 
-inline static bool Validate(List self, int index) { return self && index >= 0 && index < self->count; }
+inline static bool Validate(List self, int index) { return index < self->count; }
 
 static ListNode GetNode(List self, int index) {
   ListNode ln = GetFirstNode(self);
@@ -64,7 +79,7 @@ static ListNode GetNode(List self, int index) {
 
 static void* Get(List self, int index) {
   ListNode ln = Validate(self, index) ? GetNode(self, index) : NULL;
-  return listNode->GetItem(ln);
+  return ln ? listNode->GetItem(ln) : NULL;
 }
 
 inline static void SetLastNode(List self, ListNode ln) { listNode->SetNext(self->tail, ln); }
@@ -80,21 +95,17 @@ inline static void AddNode(List self, ListNode ln) {
 }
 
 static void Add(List self, const void* item) {
-  ListNode ln = self ? listNode->New(item) : NULL;
-  if (ln) AddNode(self, ln);
+  ListNode ln = listNode->New(item);
+  AddNode(self, ln);
 }
 
-static void Clear(List self) {
-  if (self) DeleteAllNodes(self);
-}
+static void Clear(List self) { DeleteAllNodes(self); }
 
 inline static bool Equals(List self, const void* item, const void* match) {
   return self->cis.Compare(item, match) == 0;
 }
 
 static void* Find(List self, const void* match) {
-  if (!self || !self->cis.Compare) return NULL;
-
   for (ListNode ln = GetFirstNode(self); ln; ln = listNode->GetNext(ln))
     if (Equals(self, listNode->GetItem(ln), match)) return listNode->GetItem(ln);
   return NULL;
@@ -126,13 +137,9 @@ static void* Pop(List self, int index) {
   return ln ? PopItem(ln) : NULL;
 }
 
-static void SetItemComparer(List self, ComparerInterface cis) {
-  if (self && cis) self->cis = *cis;
-}
+static void SetItemComparer(List self, ComparerInterface cis) { self->cis = *cis; }
 
-static void SetItemDeleter(List self, DeleterInterface dis) {
-  if (self && dis) self->dis = *dis;
-}
+static void SetItemDeleter(List self, DeleterInterface dis) { self->dis = *dis; }
 
 static const ListMethodStruct kTheMethod = {
     .New = New,
