@@ -51,7 +51,7 @@ static void DeleteAllNodes(List self) {
   while (!IsEmpty(self)) {
     ListNode ln = PopFirstNode(self);
     DeleteNode(self, ln);
-    self->count--;
+    --self->count;
   }
 }
 
@@ -95,7 +95,7 @@ inline static void AddNode(List self, ListNode ln) {
 static void Add(List self, const void* item) {
   ListNode ln = listNode->New(item);
   AddNode(self, ln);
-  self->count++;
+  ++self->count;
 }
 
 static void Clear(List self) { DeleteAllNodes(self); }
@@ -133,7 +133,7 @@ inline static void* PopItem(ListNode ln) {
 static void* Pop(List self, int index) {
   if (Validate(self, index)) {
     ListNode ln = PopNode(self, index);
-    self->count--;
+    --self->count;
     return PopItem(ln);
   } else {
     return NULL;
