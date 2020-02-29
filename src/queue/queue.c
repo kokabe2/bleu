@@ -27,29 +27,35 @@ static void Delete(Queue* self) {
   heap->Delete((void**)self);
 }
 
-inline static bool IsBufferFull(Queue self) { return self->capacity == self->used; }
+inline static bool IsNotBufferFull(Queue self) { return self->used < self->capacity; }
 
 static void Enqueue(Queue self, uint8_t data) {
-  if (IsBufferFull(self)) return;
-  self->buffer[self->head++] = data;
-  if (self->head == self->capacity) self->head = 0;
-  self->used++;
+  if (IsNotBufferFull(self)) {
+    self->buffer[self->head] = data;
+    ++self->head;
+    if (self->head == self->capacity) self->head = 0;
+    ++self->used;
+  }
 }
 
 inline static bool IsBufferEmpty(Queue self) { return self->used == 0; }
 
 static uint8_t Dequeue(Queue self) {
-  if (IsBufferEmpty(self)) return 0;
-  uint8_t data = self->buffer[self->tail++];
-  if (self->tail == self->capacity) self->tail = 0;
-  self->used--;
-  return data;
+  if (IsBufferEmpty(self)) {
+    return 0;
+  } else {
+    uint8_t data = self->buffer[self->tail];
+    ++self->tail;
+    if (self->tail == self->capacity) self->tail = 0;
+    --self->used;
+    return data;
+  }
 }
 
-inline static int available_size(Queue self) { return self->capacity - self->used; }
+inline static int AvailableSize(Queue self) { return self->capacity - self->used; }
 
 static void Add(Queue self, int size, const void* data) {
-  int copy_size = size <= available_size(self) ? size : available_size(self);
+  int copy_size = size <= AvailableSize(self) ? size : AvailableSize(self);
   int size_to_buffer_end = self->capacity - self->head;
   if (copy_size <= size_to_buffer_end) {
     memcpy(&self->buffer[self->head], data, copy_size);
@@ -62,8 +68,10 @@ static void Add(Queue self, int size, const void* data) {
   self->used += copy_size;
 }
 
+inline static int UsedSize(Queue self) { return self->used; }
+
 static void Pop(Queue self, int size, void* data) {
-  int copy_size = size <= self->used ? size : self->used;
+  int copy_size = size <= UsedSize(self) ? size : UsedSize(self);
   int size_to_buffer_end = self->capacity - self->tail;
   if (copy_size <= size_to_buffer_end) {
     memcpy(data, &self->buffer[self->tail], copy_size);
@@ -81,10 +89,6 @@ static void Clear(Queue self) {
   self->head = 0;
   self->tail = 0;
 }
-
-static int UsedSize(Queue self) { return self->used; }
-
-static int AvailableSize(Queue self) { return available_size(self); }
 
 static const QueueMethodStruct kTheMethod = {
     .New = New,
