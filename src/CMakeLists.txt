@@ -18,6 +18,7 @@ add_library(
     rng/xorshift_plus/xorshift_plus.c
     rng/xorshift_plus/xorshift128plus.c
     util/null_comparer.c
+    util/null_deleter.c
     )
 
 add_executable(
