@@ -9,8 +9,11 @@ extern "C" {
 class QueueTest : public ::testing::Test {
  protected:
   Queue q;
+
   virtual void SetUp() { q = queue->New(32); }
+
   virtual void TearDown() { queue->Delete(&q); }
+
   void AssertInitialCondition() {
     ASSERT_TRUE(q != NULL);
     EXPECT_EQ(0, queue->UsedSize(q));
@@ -48,8 +51,7 @@ TEST_F(QueueTest, Enqueue) {
 TEST_F(QueueTest, Dequeue) {
   for (int i = 0; i < 16; ++i) queue->Enqueue(q, i);
 
-  for (int i = 0; i < 8; ++i)
-    EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
+  for (int i = 0; i < 8; ++i) EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
 
   EXPECT_EQ(8, queue->UsedSize(q));
   EXPECT_EQ(24, queue->AvailableSize(q));
@@ -60,8 +62,7 @@ TEST_F(QueueTest, EnqueueMoreThanAvailableSize) {
 
   EXPECT_EQ(32, queue->UsedSize(q));
   EXPECT_EQ(0, queue->AvailableSize(q));
-  for (int i = 0; i < 32; ++i)
-    EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
+  for (int i = 0; i < 32; ++i) EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
 }
 
 TEST_F(QueueTest, DequeueMoreThanUsedSize) {
@@ -77,8 +78,7 @@ TEST_F(QueueTest, WrapAround) {
   for (int i = 0; i < 16; ++i) queue->Dequeue(q);
   for (int i = 24; i < 48; ++i) queue->Enqueue(q, i);
 
-  for (int i = 0; i < 20; ++i)
-    EXPECT_EQ(16 + i, queue->Dequeue(q)) << "Failure at index " << i;
+  for (int i = 0; i < 20; ++i) EXPECT_EQ(16 + i, queue->Dequeue(q)) << "Failure at index " << i;
   EXPECT_EQ(12, queue->UsedSize(q));
   EXPECT_EQ(20, queue->AvailableSize(q));
 }
@@ -101,8 +101,7 @@ TEST_F(QueueTest, AddMoreThanAvailableSize) {
 
   EXPECT_EQ(32, queue->UsedSize(q));
   EXPECT_EQ(0, queue->AvailableSize(q));
-  for (int i = 0; i < 32; ++i)
-    EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
+  for (int i = 0; i < 32; ++i) EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
 }
 
 TEST_F(QueueTest, AddWithNullData) {
@@ -117,8 +116,7 @@ TEST_F(QueueTest, Pop) {
 
   queue->Pop(q, 8, output);
 
-  for (int i = 0; i < 8; ++i)
-    EXPECT_EQ(i, output[i]) << "Failure at index " << i;
+  for (int i = 0; i < 8; ++i) EXPECT_EQ(i, output[i]) << "Failure at index " << i;
   EXPECT_EQ(0, output[8]);
   EXPECT_EQ(16, queue->UsedSize(q));
   EXPECT_EQ(16, queue->AvailableSize(q));
@@ -131,8 +129,7 @@ TEST_F(QueueTest, PopMoreThanUsedSize) {
 
   queue->Pop(q, sizeof(output), output);
 
-  for (int i = 0; i < 24; ++i)
-    EXPECT_EQ(i, output[i]) << "Failure at index " << i;
+  for (int i = 0; i < 24; ++i) EXPECT_EQ(i, output[i]) << "Failure at index " << i;
   EXPECT_EQ(0xFF, output[24]);
   EXPECT_EQ(0, queue->UsedSize(q));
   EXPECT_EQ(32, queue->AvailableSize(q));
@@ -185,10 +182,8 @@ TEST_F(QueueTest, SampleTransaction) {
 
   EXPECT_EQ(19, queue->UsedSize(q));
   EXPECT_EQ(13, queue->AvailableSize(q));
-  for (int i = 0; i < 9; ++i)
-    EXPECT_EQ(i, output[i]) << "Failure at index " << i;
-  for (int i = 9; i < 28; ++i)
-    EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
+  for (int i = 0; i < 9; ++i) EXPECT_EQ(i, output[i]) << "Failure at index " << i;
+  for (int i = 9; i < 28; ++i) EXPECT_EQ(i, queue->Dequeue(q)) << "Failure at index " << i;
   AssertInitialCondition();
 }
 

@@ -8,6 +8,7 @@
 class MockIoDataTest : public ::testing::Test {
  protected:
   virtual void SetUp() { mockIoData->SetUp(4); }
+
   virtual void TearDown() { mockIoData->CleanUp(); }
 };
 
@@ -27,10 +28,9 @@ TEST_F(MockIoDataTest, CanMatchExpectation) {
 
 TEST_F(MockIoDataTest, WriteWhenReadExpectedFails) {
   mockIoData->ExpectReadThenReturn(0, 1);
-  EXPECT_FATAL_FAILURE(
-      ioData->b8->Write(0, 0),
-      "Count 1: Expected ioData->Read(0x0) would return 0x1\n\t        "
-      "But was ioData->Write(0x0, 0x0)");
+  EXPECT_FATAL_FAILURE(ioData->b8->Write(0, 0),
+                       "Count 1: Expected ioData->Read(0x0) would return 0x1\n\t        "
+                       "But was ioData->Write(0x0, 0x0)");
 }
 
 TEST_F(MockIoDataTest, ReadWhenWriteExpectedFails) {
@@ -45,8 +45,7 @@ TEST_F(MockIoDataTest, TooManyWriteExpectations) {
   mockIoData->ExpectWrite(0, 1);
   mockIoData->ExpectWrite(0, 1);
   mockIoData->ExpectWrite(0, 1);
-  EXPECT_FATAL_FAILURE(mockIoData->ExpectWrite(0, 1),
-                       "mockIoData->ExpectWrite: Too many expectations");
+  EXPECT_FATAL_FAILURE(mockIoData->ExpectWrite(0, 1), "mockIoData->ExpectWrite: Too many expectations");
 }
 
 TEST_F(MockIoDataTest, TooManyReadExpectations) {
@@ -54,9 +53,8 @@ TEST_F(MockIoDataTest, TooManyReadExpectations) {
   mockIoData->ExpectReadThenReturn(0, 0);
   mockIoData->ExpectReadThenReturn(0, 0);
   mockIoData->ExpectReadThenReturn(0, 0);
-  EXPECT_FATAL_FAILURE(
-      mockIoData->ExpectReadThenReturn(0, 0),
-      "mockIoData->ExpectReadThenReturn: Too many expectations");
+  EXPECT_FATAL_FAILURE(mockIoData->ExpectReadThenReturn(0, 0),
+                       "mockIoData->ExpectReadThenReturn: Too many expectations");
 }
 
 TEST_F(MockIoDataTest, MismatchedWriteAddress) {
@@ -75,22 +73,18 @@ TEST_F(MockIoDataTest, MismatchedWriteData) {
 
 TEST_F(MockIoDataTest, MismatchedReadAddress) {
   mockIoData->ExpectReadThenReturn(0x1000, 0xaa);
-  EXPECT_FATAL_FAILURE(
-      ioData->b8->Read(0x10000),
-      "Count 1: Expected ioData->Read(0x1000) would return 0xaa\n\t        "
-      "But was ioData->Read(0x10000)");
+  EXPECT_FATAL_FAILURE(ioData->b8->Read(0x10000),
+                       "Count 1: Expected ioData->Read(0x1000) would return 0xaa\n\t        "
+                       "But was ioData->Read(0x10000)");
 }
 
 TEST_F(MockIoDataTest, TooManyReads) {
-  EXPECT_FATAL_FAILURE(
-      ioData->b8->Read(0x10000),
-      "Count 1: No more expectations but was ioData->Read(0x10000)");
+  EXPECT_FATAL_FAILURE(ioData->b8->Read(0x10000), "Count 1: No more expectations but was ioData->Read(0x10000)");
 }
 
 TEST_F(MockIoDataTest, TooManyWrites) {
-  EXPECT_FATAL_FAILURE(
-      ioData->b8->Write(0x10000, 0x12),
-      "Count 1: No more expectations but was ioData->Write(0x10000, 0x12)");
+  EXPECT_FATAL_FAILURE(ioData->b8->Write(0x10000, 0x12),
+                       "Count 1: No more expectations but was ioData->Write(0x10000, 0x12)");
 }
 
 TEST_F(MockIoDataTest, NotAllExpectationsUsed) {

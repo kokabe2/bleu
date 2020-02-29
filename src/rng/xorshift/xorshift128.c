@@ -4,6 +4,8 @@
 
 #include "xorshift_protected.h"
 
+static const uint32_t kDefaultSeeds[] = {123456789, 362436069, 521288629, 88675123};
+
 static uint32_t Generate(Xorshift self) {
   uint32_t t = self->state[3];
   uint32_t s = self->state[0];
@@ -14,18 +16,19 @@ static uint32_t Generate(Xorshift self) {
   t ^= t >> 8;
   return self->state[0] = t ^ s ^ (s >> 19);
 }
+
 static const XorshiftAbstractMethodStruct kConcreteMethod = {
     .Generate = Generate,
 };
 
-static const uint32_t kDefaultSeeds[] = {123456789, 362436069, 521288629,
-                                         88675123};
 static Xorshift New(void) {
   Xorshift self = _xorshift->New(sizeof(kDefaultSeeds), &kConcreteMethod);
   xorshift->Give(self, kDefaultSeeds);
   return self;
 }
+
 static const Xorshift128MethodStruct kTheMethod = {
     .New = New,
 };
+
 const Xorshift128Method xorshift128 = &kTheMethod;

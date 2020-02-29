@@ -12,14 +12,17 @@ int Compare(const void* x, const void* y) {
   const int* b = (const int*)y;
   return *a - *b;
 }
+
 const ComparerInterfaceStruct kComparer = {Compare};
 
 void* last_deleted_item;
 int deletion_count;
+
 void Delete(void** self) {
   last_deleted_item = *self;
   deletion_count++;
 }
+
 const DeleterInterfaceStruct kDeleter = {Delete};
 
 const int kNumOfItems = 16;
@@ -29,6 +32,7 @@ class ListTest : public ::testing::Test {
  protected:
   int items[kNumOfItems];
   List l;
+
   virtual void SetUp() {
     deletion_count = 0;
     last_deleted_item = NULL;
@@ -37,12 +41,15 @@ class ListTest : public ::testing::Test {
     list->SetItemComparer(l, &kComparer);
     list->SetItemDeleter(l, &kDeleter);
   }
+
   virtual void TearDown() { list->Delete(&l); }
+
   void AssertInitialCondition() {
     ASSERT_TRUE(l != NULL);
     EXPECT_EQ(0, list->Count(l));
     EXPECT_EQ(NULL, list->Get(l, 0));
   }
+
   void AddAllItems(void) {
     for (int i = 0; i < kNumOfItems; ++i) list->Add(l, &items[i]);
   }
@@ -54,16 +61,14 @@ TEST_F(ListTest, AddItems) {
   AddAllItems();
 
   EXPECT_EQ(kNumOfItems, list->Count(l));
-  for (int i = 0; i < kNumOfItems; ++i)
-    EXPECT_EQ(&items[i], list->Get(l, i)) << "Failure at index " << i;
+  for (int i = 0; i < kNumOfItems; ++i) EXPECT_EQ(&items[i], list->Get(l, i)) << "Failure at index " << i;
   EXPECT_EQ(NULL, list->Get(l, kNumOfItems));
 }
 
 TEST_F(ListTest, FindItems) {
   AddAllItems();
 
-  for (int i = 0; i < kNumOfItems; ++i)
-    EXPECT_EQ(&items[i], list->Find(l, &i)) << "Failure at index " << i;
+  for (int i = 0; i < kNumOfItems; ++i) EXPECT_EQ(&items[i], list->Find(l, &i)) << "Failure at index " << i;
   int non_existed = kNumOfItems;
   EXPECT_EQ(NULL, list->Find(l, &non_existed));
 }
@@ -71,8 +76,7 @@ TEST_F(ListTest, FindItems) {
 TEST_F(ListTest, PopItems) {
   AddAllItems();
 
-  for (int i = 0; i < kNumOfItems; ++i)
-    EXPECT_EQ(&items[i], list->Pop(l, 0)) << "Failure at index " << i;
+  for (int i = 0; i < kNumOfItems; ++i) EXPECT_EQ(&items[i], list->Pop(l, 0)) << "Failure at index " << i;
   EXPECT_EQ(NULL, list->Pop(l, 0));
   AssertInitialCondition();
 }
@@ -88,13 +92,9 @@ TEST_F(ListTest, PopItemsRandomly) {
   EXPECT_EQ(kNumOfItems - 5, list->Count(l));
 }
 
-TEST_F(ListTest, PopWithIndexLessThanZero) {
-  EXPECT_EQ(NULL, list->Pop(l, -243));
-}
+TEST_F(ListTest, PopWithIndexLessThanZero) { EXPECT_EQ(NULL, list->Pop(l, -243)); }
 
-TEST_F(ListTest, GetWithIndexLessThanZero) {
-  EXPECT_EQ(NULL, list->Get(l, -1));
-}
+TEST_F(ListTest, GetWithIndexLessThanZero) { EXPECT_EQ(NULL, list->Get(l, -1)); }
 
 TEST_F(ListTest, ClearItems) {
   AddAllItems();
@@ -151,8 +151,7 @@ TEST_F(ListTest, SampleTransaction) {
   AddAllItems();
 
   EXPECT_EQ(kNumOfItems, list->Count(l));
-  for (int i = 0; i < kNumOfItems; ++i)
-    EXPECT_EQ(&items[i], list->Get(l, i)) << "Failure at index " << i;
+  for (int i = 0; i < kNumOfItems; ++i) EXPECT_EQ(&items[i], list->Get(l, i)) << "Failure at index " << i;
 }
 
 TEST_F(ListTest, FindWithNotAddedItem) {
