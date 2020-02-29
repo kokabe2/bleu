@@ -27,14 +27,14 @@ static void Delete(XorshiftPlus* self) {
   heap->Delete((void**)self);
 }
 
-static bool IsAllZero(XorshiftPlus self, const uint64_t* seeds) {
+static bool IsNotAllZero(XorshiftPlus self, const uint64_t* seeds) {
   for (int i = 0; i < self->state_size / sizeof(uint64_t); ++i)
-    if (seeds[i]) return false;
-  return true;
+    if (seeds[i] != 0) return true;
+  return false;
 }
 
 static void Give(XorshiftPlus self, const uint64_t* seeds) {
-  if (!IsAllZero(self, seeds)) memcpy(self->state, seeds, self->state_size);
+  if (IsNotAllZero(self, seeds)) memcpy(self->state, seeds, self->state_size);
 }
 
 static uint64_t Generate(XorshiftPlus self) { return self->impl->Generate(self); }
