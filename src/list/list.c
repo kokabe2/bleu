@@ -42,7 +42,7 @@ inline static ListNode PopFirstNode(List self) {
   return ln;
 }
 
-inline static void DeleteItemIfNeeded(List self, ListNode ln) {
+inline static void DeleteItem(List self, ListNode ln) {
   void* item = listNode->GetItem(ln);
   self->dis.Delete(&item);
 }
@@ -50,7 +50,7 @@ inline static void DeleteItemIfNeeded(List self, ListNode ln) {
 static void DeleteAllNodes(List self) {
   while (!IsEmpty(self)) {
     ListNode ln = PopFirstNode(self);
-    DeleteItemIfNeeded(self, ln);
+    DeleteItem(self, ln);
     listNode->Delete(&ln);
   }
   self->tail = NULL;
