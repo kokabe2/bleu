@@ -75,13 +75,13 @@ static void* Get(List self, int index) {
   return ln ? listNode->GetItem(ln) : NULL;
 }
 
-inline static void SetLastNode(List self, ListNode ln) { listNode->SetNext(self->tail, ln); }
+inline static void AddToLastNode(List self, ListNode ln) { listNode->SetNext(self->tail, ln); }
 
 inline static void AddNode(List self, ListNode ln) {
   if (IsEmpty(self))
     SetFirstNode(self, ln);
   else
-    SetLastNode(self, ln);
+    AddToLastNode(self, ln);
 
   self->tail = ln;
   self->count++;
