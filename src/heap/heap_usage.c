@@ -2,20 +2,20 @@
 // This software is released under the MIT License, see LICENSE.
 #include "heap_usage.h"
 
-#include "stddef.h"
-
 #include "heap_usage_internal.h"
+
+static void WarningDummy(int usage) {}
 
 static int the_usage = 0;
 static int the_usage_for_warning = 0;
-static WarningDelegate the_warning_delegate = NULL;
+static WarningDelegate the_warning_delegate = WarningDummy;
 
 static void Add(int amount) { the_usage += amount; }
 
 static void Subtract(int amount) { the_usage -= amount; }
 
 static void WarnIfNeeded(void) {
-  if (the_warning_delegate && the_usage >= the_usage_for_warning) the_warning_delegate(the_usage);
+  if (the_usage >= the_usage_for_warning) the_warning_delegate(the_usage);
 }
 
 static const HeapUsageInternalMethodStruct kInternalMethod = {

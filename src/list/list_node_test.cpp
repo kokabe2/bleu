@@ -18,16 +18,15 @@ class ListNodeTest : public ::testing::Test {
   }
 
   virtual void TearDown() {
-    listNode->Delete(&ln1);
-    listNode->Delete(&ln2);
+    if (ln1 != NULL) listNode->Delete(&ln1);
+    if (ln2 != NULL) listNode->Delete(&ln2);
   }
 };
 
 TEST_F(ListNodeTest, ConditionAfterNew) {
-  ASSERT_TRUE(ln1 != NULL);
   EXPECT_EQ(item1, listNode->GetItem(ln1));
   EXPECT_EQ(NULL, listNode->GetNext(ln1));
-  ASSERT_TRUE(ln2 != NULL);
+
   EXPECT_EQ(NULL, listNode->GetItem(ln2));
   EXPECT_EQ(NULL, listNode->GetNext(ln2));
 }
@@ -38,13 +37,6 @@ TEST_F(ListNodeTest, Delete) {
   EXPECT_EQ(NULL, ln1);
 }
 
-TEST_F(ListNodeTest, DeleteMultipleTimes) {
-  listNode->Delete(&ln1);
-  listNode->Delete(&ln1);
-
-  SUCCEED();
-}
-
 TEST_F(ListNodeTest, HowToUse) {
   char item2[2];
 
@@ -53,14 +45,4 @@ TEST_F(ListNodeTest, HowToUse) {
 
   EXPECT_EQ(item2, listNode->GetItem(ln1));
   EXPECT_EQ(ln2, listNode->GetNext(ln1));
-}
-
-TEST_F(ListNodeTest, CallMethodWithNullInstance) {
-  listNode->Delete(NULL);
-  EXPECT_EQ(NULL, listNode->GetItem(NULL));
-  listNode->SetItem(NULL, item1);
-  EXPECT_EQ(NULL, listNode->GetNext(NULL));
-  listNode->SetNext(NULL, ln1);
-
-  SUCCEED();
 }

@@ -16,7 +16,9 @@ class XorshiftPlusTest : public ::testing::Test {
 
   virtual void SetUp() { x = NULL; }
 
-  virtual void TearDown() { xorshiftPlus->Delete(&x); }
+  virtual void TearDown() {
+    if (x != NULL) xorshiftPlus->Delete(&x);
+  }
 
   void AssertRandomness() {
     ASSERT_TRUE(x != NULL);
@@ -45,23 +47,6 @@ TEST_F(XorshiftPlusTest, Delete) {
   ASSERT_EQ(NULL, x);
 }
 
-TEST_F(XorshiftPlusTest, DeleteMultipleTimes) {
-  x = xorshift128plus->New();
-
-  xorshiftPlus->Delete(&x);
-  xorshiftPlus->Delete(&x);
-
-  SUCCEED();
-}
-
-TEST_F(XorshiftPlusTest, GiveWithNullSeeds) {
-  x = xorshift128plus->New();
-
-  xorshiftPlus->Give(x, NULL);  // No effect
-
-  AssertRandomness();
-}
-
 TEST_F(XorshiftPlusTest, GiveWithSeedsAllZero) {
   uint64_t seeds[4] = {0};
   x = xorshift128plus->New();
@@ -69,14 +54,4 @@ TEST_F(XorshiftPlusTest, GiveWithSeedsAllZero) {
   xorshiftPlus->Give(x, seeds);  // No effect
 
   AssertRandomness();
-}
-
-TEST_F(XorshiftPlusTest, CallMethodWithNullInstance) {
-  uint64_t seeds[] = {1, 2, 3, 4};
-
-  xorshiftPlus->Delete(NULL);
-  xorshiftPlus->Give(NULL, seeds);
-  EXPECT_EQ(0, xorshiftPlus->Generate(NULL));
-
-  SUCCEED();
 }

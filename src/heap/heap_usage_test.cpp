@@ -36,15 +36,6 @@ TEST_F(HeapUsageTest, WarnWhenOverUsageLimit) {
   EXPECT_EQ(256, usageWarningSpy->GivenUsage());
 }
 
-TEST_F(HeapUsageTest, SetWarningWithNull) {
-  heapUsage->SetWarning(255, NULL);
-
-  heapUsage_->Add(256);
-
-  EXPECT_EQ(256, heapUsage->Get());
-  EXPECT_FALSE(usageWarningSpy->WasRun());
-}
-
 TEST_F(HeapUsageTest, Clear) {
   heapUsage_->Add(255);
 
