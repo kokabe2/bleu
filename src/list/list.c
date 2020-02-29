@@ -29,8 +29,6 @@ static List New(void) {
   return self;
 }
 
-inline static bool IsEmpty(List self) { return self->count == 0; }
-
 inline static ListNode GetFirstNode(List self) { return self->head; }
 
 inline static void SetFirstNode(List self, ListNode ln) { self->head = ln; }
@@ -48,10 +46,9 @@ inline static void DeleteNode(List self, ListNode ln) {
 }
 
 static void DeleteAllNodes(List self) {
-  while (!IsEmpty(self)) {
+  for (; self->count > 0; --self->count) {
     ListNode ln = PopFirstNode(self);
     DeleteNode(self, ln);
-    --self->count;
   }
 }
 
@@ -78,6 +75,8 @@ static void* Get(List self, int index) {
     return NULL;
   }
 }
+
+inline static bool IsEmpty(List self) { return self->count == 0; }
 
 inline static void AddToLastNode(List self, ListNode ln) { listNode->SetNext(self->tail, ln); }
 
