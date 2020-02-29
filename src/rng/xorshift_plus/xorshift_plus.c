@@ -10,11 +10,9 @@
 
 static XorshiftPlus New(int state_size, XorshiftPlusAbstractMethod impl) {
   XorshiftPlus self = (XorshiftPlus)heap->New(sizeof(XorshiftPlusStruct));
-  if (!self) return self;
   self->state_size = state_size;
-  self->impl = impl;
   self->state = (uint64_t*)heap->New(state_size);
-  if (!self->state) heap->Delete((void**)&self);
+  self->impl = impl;
   return self;
 }
 
@@ -25,7 +23,6 @@ static const XorshiftPlusProtectedMethodStruct kProtectedMethod = {
 const XorshiftPlusProtectedMethod _xorshiftPlus = &kProtectedMethod;
 
 static void Delete(XorshiftPlus* self) {
-  if (!self || !*self) return;
   heap->Delete((void**)&(*self)->state);
   heap->Delete((void**)self);
 }
@@ -37,10 +34,10 @@ static bool IsAllZero(XorshiftPlus self, const uint64_t* seeds) {
 }
 
 static void Give(XorshiftPlus self, const uint64_t* seeds) {
-  if (self && seeds && !IsAllZero(self, seeds)) memcpy(self->state, seeds, self->state_size);
+  if (!IsAllZero(self, seeds)) memcpy(self->state, seeds, self->state_size);
 }
 
-static uint64_t Generate(XorshiftPlus self) { return self ? self->impl->Generate(self) : 0; }
+static uint64_t Generate(XorshiftPlus self) { return self->impl->Generate(self); }
 
 static const XorshiftPlusAbstractMethodStruct kTheMethod = {
     .Delete = Delete, .Give = Give, .Generate = Generate,
