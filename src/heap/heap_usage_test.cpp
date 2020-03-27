@@ -19,31 +19,37 @@ class HeapUsageTest : public ::testing::Test {
   virtual void TearDown() {}
 };
 
+TEST_F(HeapUsageTest, Get) {
+  heapUsage_->Add(128);
+  heapUsage_->Subtract(6);
+  heapUsage_->Add(45);
+
+  EXPECT_EQ(167, heapUsage->Get());
+}
+
+TEST_F(HeapUsageTest, Clear) {
+  heapUsage_->Add(1000);
+
+  heapUsage->Clear();
+
+  EXPECT_EQ(0, heapUsage->Get());
+}
+
 TEST_F(HeapUsageTest, WarnWhenNotOverUsageLimit) {
   heapUsage_->Add(255);
+
   heapUsage_->WarnIfNeeded();
 
-  EXPECT_EQ(255, heapUsage->Get());
   EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
 TEST_F(HeapUsageTest, WarnWhenOverUsageLimit) {
   heapUsage_->Add(256);
+
   heapUsage_->WarnIfNeeded();
 
-  EXPECT_EQ(256, heapUsage->Get());
   EXPECT_TRUE(usageWarningSpy->WasRun());
   EXPECT_EQ(256, usageWarningSpy->GivenUsage());
-}
-
-TEST_F(HeapUsageTest, Clear) {
-  heapUsage_->Add(255);
-
-  heapUsage->Clear();
-  heapUsage_->Add(1);
-
-  EXPECT_EQ(1, heapUsage->Get());
-  EXPECT_FALSE(usageWarningSpy->WasRun());
 }
 
 TEST_F(HeapUsageTest, SampleTransaction) {
