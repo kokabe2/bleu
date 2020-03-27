@@ -1,7 +1,7 @@
 ﻿// Copyright(c) 2020 Ken Okabe
 // This software is released under the MIT License, see LICENSE.
-#ifndef V1_IO_INTERFACE_H_
-#define V1_IO_INTERFACE_H_
+#ifndef V1_IO_READER_WRITER_H_
+#define V1_IO_READER_WRITER_H_
 
 #include <stdint.h>
 
@@ -12,7 +12,7 @@ typedef struct {
   void (*Add)(IoAddress offset, IoData data);
   void (*Remove)(IoAddress offset, IoData data);
   IoData (*Read)(IoAddress offset);
-} IoInterfaceStruct;
-typedef const IoInterfaceStruct* IoInterface;
+} IoReaderWriterStruct;
+typedef const IoReaderWriterStruct* IoReaderWriter;
 
-#endif  // V1_IO_INTERFACE_H_
+#endif  // V1_IO_READER_WRITER_H_

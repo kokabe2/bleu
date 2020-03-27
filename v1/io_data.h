@@ -3,12 +3,12 @@
 #ifndef V1_IO_DATA_H_
 #define V1_IO_DATA_H_
 
-#include "io_interface.h"
+#include "io_reader_writer.h"
 
 typedef struct {
-  IoInterface b8;
-  IoInterface b16;
-  IoInterface b32;
+  IoReaderWriter b8;
+  IoReaderWriter b16;
+  IoReaderWriter b32;
 } IoDataMethodStruct;
 typedef const IoDataMethodStruct* IoDataMethod;
 
