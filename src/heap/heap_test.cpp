@@ -8,14 +8,20 @@ extern "C" {
 #include "usage_warning_spy.h"
 }
 
+namespace {
+bool was_ran;
+
+void SpyWarning(int unused) { was_ran = true; }
+}  // namespace
+
 class HeapTest : public ::testing::Test {
  protected:
   char* c;
 
   virtual void SetUp() {
-    usageWarningSpy->Reset();
+    was_ran = false;
+    heapUsage->SetWarning(256, SpyWarning);
     heapUsage->Clear();
-    heapUsage->SetWarning(256, usageWarningSpy->Get());
     c = (char*)heap->New(128);
   }
 
@@ -45,11 +51,10 @@ TEST_F(HeapTest, DeleteWithNull) {
   SUCCEED();
 }
 
-TEST_F(HeapTest, HeapUsage) {
-  EXPECT_FALSE(usageWarningSpy->WasRun());
+TEST_F(HeapTest, NewWarnsWhenOverUsageLimit) {
   void* v = (void*)heap->New(128);
-  EXPECT_TRUE(usageWarningSpy->WasRun());
-  EXPECT_GE(usageWarningSpy->GivenUsage(), 256);  // Actual usage is implementation-dependent.
+
+  EXPECT_TRUE(was_ran);
 
   heap->Delete((void**)&v);
 }
