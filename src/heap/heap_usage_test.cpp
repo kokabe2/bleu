@@ -5,7 +5,6 @@
 extern "C" {
 #include "heap_usage.h"
 #include "heap_usage_internal.h"
-#include "usage_warning_spy.h"
 }
 
 namespace {
