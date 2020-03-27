@@ -23,7 +23,6 @@ class HeapTest : public ::testing::Test {
 };
 
 TEST_F(HeapTest, New) {
-  EXPECT_TRUE(c != NULL);
   for (int i = 0; i < 128; ++i) EXPECT_EQ(0, c[i]) << "Failure at index " << i;
 }
 
