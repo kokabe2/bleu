@@ -215,15 +215,15 @@ static IoData Read16bit(IoAddress offset) { return (uint16_t)Read(offset); }
 
 static IoData Read32bit(IoAddress offset) { return (uint32_t)Read(offset); }
 
-static const IoInterfaceStruct kImplFor8bit = {
+static const IoReaderWriterStruct kImplFor8bit = {
     Write8bit, Add8bit, Remove8bit, Read8bit,
 };
 
-static const IoInterfaceStruct kImplFor16bit = {
+static const IoReaderWriterStruct kImplFor16bit = {
     Write16bit, Add16bit, Remove16bit, Read16bit,
 };
 
-static const IoInterfaceStruct kImplFor32bit = {
+static const IoReaderWriterStruct kImplFor32bit = {
     Write32bit, Add32bit, Remove32bit, Read32bit,
 };
 

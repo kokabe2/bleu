@@ -7,25 +7,27 @@
 
 #include "heap.h"
 #include "list_node.h"
-#include "null_comparer.h"
-#include "null_deleter.h"
 
 typedef struct ListStruct {
   ListNode head;
   ListNode tail;
   int count;
-  ComparerInterfaceStruct comparer;
-  DeleterInterfaceStruct deleter;
+  CompareDelegate Compare;
+  DeleteDelegate Delete;
 } ListStruct;
 
-inline static void SetItemComparer(List self, ComparerInterface comparer) { self->comparer = *comparer; }
+static int DummyCompare(const void* x, const void* y) { return 0; }
 
-inline static void SetItemDeleter(List self, DeleterInterface deleter) { self->deleter = *deleter; }
+static void DummyDelete(void** x) {}
+
+inline static void SetItemComparer(List self, CompareDelegate delegate) { self->Compare = delegate; }
+
+inline static void SetItemDeleter(List self, DeleteDelegate delegate) { self->Delete = delegate; }
 
 static List New(void) {
   List self = (List)heap->New(sizeof(ListStruct));
-  SetItemComparer(self, NullComparer);
-  SetItemDeleter(self, NullDeleter);
+  SetItemComparer(self, DummyCompare);
+  SetItemDeleter(self, DummyDelete);
   return self;
 }
 
@@ -41,7 +43,7 @@ inline static ListNode PopFirstNode(List self) {
 
 inline static void DeleteNode(List self, ListNode ln) {
   void* item = listNode->GetItem(ln);
-  self->deleter.Delete(&item);
+  self->Delete(&item);
   listNode->Delete(&ln);
 }
 
@@ -99,9 +101,7 @@ static void Add(List self, const void* item) {
 
 static void Clear(List self) { DeleteAllNodes(self); }
 
-inline static bool Equals(List self, const void* item, const void* match) {
-  return self->comparer.Compare(item, match) == 0;
-}
+inline static bool Equals(List self, const void* item, const void* match) { return self->Compare(item, match) == 0; }
 
 static void* Find(List self, const void* match) {
   for (ListNode ln = GetFirstNode(self); ln; ln = listNode->GetNext(ln))

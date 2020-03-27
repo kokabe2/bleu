@@ -3,11 +3,11 @@
 #ifndef V1_HEAP_USAGE_H_
 #define V1_HEAP_USAGE_H_
 
-typedef void (*WarningDelegate)(int usage);
+typedef void (*WarnDelegate)(int usage);
 typedef struct {
   int (*Get)(void);
   void (*Clear)(void);
-  void (*SetWarning)(int usage, WarningDelegate warning);
+  void (*SetWarning)(int usage, WarnDelegate delegate);
 } HeapUsageMethodStruct;
 typedef const HeapUsageMethodStruct* HeapUsageMethod;
 

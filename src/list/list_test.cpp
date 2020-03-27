@@ -7,23 +7,19 @@ extern "C" {
 }
 
 namespace {
-int Compare(const void* x, const void* y) {
+int CompareSpy(const void* x, const void* y) {
   const int* a = (const int*)x;
   const int* b = (const int*)y;
   return *a - *b;
 }
 
-const ComparerInterfaceStruct kComparer = {Compare};
-
 void* last_deleted_item;
 int deletion_count;
 
-void Delete(void** self) {
+void DeleteSpy(void** self) {
   last_deleted_item = *self;
   deletion_count++;
 }
-
-const DeleterInterfaceStruct kDeleter = {Delete};
 
 const int kNumOfItems = 16;
 }  // namespace
@@ -38,8 +34,8 @@ class ListTest : public ::testing::Test {
     last_deleted_item = NULL;
     for (int i = 0; i < kNumOfItems; ++i) items[i] = i;
     l = list->New();
-    list->SetItemComparer(l, &kComparer);
-    list->SetItemDeleter(l, &kDeleter);
+    list->SetItemComparer(l, CompareSpy);
+    list->SetItemDeleter(l, DeleteSpy);
   }
 
   virtual void TearDown() {
