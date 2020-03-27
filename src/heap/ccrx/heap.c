@@ -29,13 +29,15 @@ static void *New(int size) {
 }
 
 static void Delete(void **memory) {
-  if (!memory) return;
-  free(*memory);
-  *memory = NULL;
+  if (memory != NULL) {
+    free(*memory);
+    *memory = NULL;
+  }
 }
 
 static const HeapMethodStruct kTheMethod = {
-    .New = New, .Delete = Delete,
+    .New = New,
+    .Delete = Delete,
 };
 
 const HeapMethod heap = &kTheMethod;
