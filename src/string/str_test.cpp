@@ -19,12 +19,16 @@ TEST_F(StringsTest, NewReturnsOtherInstance) { EXPECT_NE("Alfa Bravo Charlie Del
 
 TEST_F(StringsTest, Length) { EXPECT_EQ(42, strings->Length(s)); }
 
-TEST_F(StringsTest, EqualsWhenSameStrings) {
+TEST_F(StringsTest, EqualsWithSameStrings) {
   EXPECT_TRUE(strings->Equals(s, "Alfa Bravo Charlie Delta Echo Foxtrot Golf"));
 }
 
-TEST_F(StringsTest, EqualsWhenDifferentStrings) {
+TEST_F(StringsTest, EqualsWithDifferentStrings) {
   EXPECT_FALSE(strings->Equals(s, "Alfa Bravo Charlie Delta EchO Foxtrot Golf"));
+}
+
+TEST_F(StringsTest, EqualsWithSameUntilHalfway) {
+  EXPECT_FALSE(strings->Equals(s, "Alfa Bravo Charlie Delta Echo Foxtrot Golf."));
 }
 
 TEST_F(StringsTest, Contains) { EXPECT_TRUE(strings->Contains(s, "Delta")); }
