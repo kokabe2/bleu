@@ -15,7 +15,10 @@ static void Delete(Strings *self) { heap->Delete((void **)self); }
 
 static int Length(Strings self) { return strlen(self); }
 
-static bool Equals(Strings self, Strings s) { return strncmp(self, s, strlen(self)) == 0; }
+static bool Equals(Strings self, Strings s) {
+  int len = strlen(self);
+  return len == strlen(s) && strncmp(self, s, len) == 0;
+}
 
 static bool Contains(Strings self, Strings s) { return strstr(self, s) != NULL; }
 
