@@ -17,6 +17,7 @@ add_library(
     rng/xorshift/xorshift128.c
     rng/xorshift_plus/xorshift_plus.c
     rng/xorshift_plus/xorshift128plus.c
+    string/path.c
     string/str.c
     )
 
@@ -31,6 +32,7 @@ add_executable(
     queue/queue_test.cpp
     rng/xorshift/xorshift_test.cpp
     rng/xorshift_plus/xorshift_plus_test.cpp
+    string/path_test.cpp
     string/str_test.cpp
     )
 
