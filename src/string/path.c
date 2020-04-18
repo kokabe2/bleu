@@ -38,7 +38,7 @@ static void Delete(Path *self) {
 
 static int Count(Path self) { return list->Count(self->directories); }
 
-static const char *Directory(Path self, int hierarchy) { return list->Get(self->directories, hierarchy); }
+static const char *Directory(Path self, int index) { return list->Get(self->directories, index); }
 
 static const PathMethodStruct kTheMethod = {
     .New = New,

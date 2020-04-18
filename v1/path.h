@@ -10,7 +10,7 @@ typedef struct {
   Path (*New)(Strings s);
   void (*Delete)(Path* self);
   int (*Count)(Path self);
-  const char* (*Directory)(Path self, int hierarchy);
+  const char* (*Directory)(Path self, int index);
 } PathMethodStruct;
 typedef const PathMethodStruct* PathMethod;
 
