@@ -24,7 +24,8 @@ mkdir %OUTPUT_DIR% > NUL 2>&1
            src/rng/xorshift_plus/xorshift_plus.c ^
            src/rng/xorshift_plus/xorshift128plus.c ^
            src/string/path.c ^
-           src/string/str.c
+           src/string/str.c ^
+           src/string/string_builder.c
 if %errorlevel% neq 0 exit /b
 
 rlink -form=lib -output=%OUTPUT_DIR%/%PROJECT_NAME%.lib *.obj

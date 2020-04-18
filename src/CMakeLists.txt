@@ -19,6 +19,7 @@ add_library(
     rng/xorshift_plus/xorshift128plus.c
     string/path.c
     string/str.c
+    string/string_builder.c
     )
 
 add_executable(
@@ -34,6 +35,7 @@ add_executable(
     rng/xorshift_plus/xorshift_plus_test.cpp
     string/path_test.cpp
     string/str_test.cpp
+    string/string_builder_test.cpp
     )
 
 add_dependencies(gtests googletest)
