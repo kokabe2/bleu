@@ -10,6 +10,7 @@ set OUTPUT_DIR=bin\%COMPILER%@%PROJECT_VER%
 mkdir %OUTPUT_DIR% > NUL 2>&1
 %COMPILER% -output=obj -lang=c99 -nostuff -isa=rxv3 -debug -signed_char ^
            -include=v1/ ^
+           src/error/runtime_error.c ^
            src/heap/%COMPILER%/heap.c ^
            src/heap/heap_usage.c ^
            src/io_data/io_data.c ^

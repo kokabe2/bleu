@@ -4,6 +4,7 @@ include_directories(
 
 add_library(
     bleu
+    error/runtime_error.c
     heap/gcc/heap.c
     heap/heap_usage.c
     io_data/mock_io_data.cpp
@@ -25,6 +26,7 @@ add_library(
 add_executable(
     gtests
     main.cpp
+    error/runtime_error_test.cpp
     heap/heap_test.cpp
     heap/heap_usage_test.cpp
     io_data/mock_io_data_test.cpp
