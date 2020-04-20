@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "../heap_usage_internal.h"
+#include "heap/heap_usage_internal.h"
 #include "heap_usage.h"
 
 extern uint32_t *heap_area;

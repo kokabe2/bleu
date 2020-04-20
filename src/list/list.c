@@ -6,7 +6,7 @@
 #include <stddef.h>
 
 #include "heap.h"
-#include "list_node.h"
+#include "list/list_node.h"
 
 typedef struct ListStruct {
   ListNode head;

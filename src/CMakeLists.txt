@@ -1,5 +1,6 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/v1
+    ${PROJECT_SOURCE_DIR}/src
     )
 
 add_library(

@@ -2,7 +2,7 @@
 // This software is released under the MIT License, see LICENSE.
 #include "xorshift64.h"
 
-#include "xorshift_protected.h"
+#include "rng/xorshift/xorshift_protected.h"
 
 static const uint32_t kDefaultSeeds[] = {123456789, 362436069};
 

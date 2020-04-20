@@ -1,6 +1,6 @@
 ﻿// Copyright(c) 2020 Ken Okabe
 // This software is released under the MIT License, see LICENSE.
-#include "list_node.h"
+#include "list/list_node.h"
 
 #include <stddef.h>
 
@@ -28,7 +28,12 @@ static ListNode GetNext(ListNode self) { return self->next; }
 static void SetNext(ListNode self, ListNode next) { self->next = next; }
 
 static const ListNodeMethodStruct kTheMethod = {
-    .New = New, .Delete = Delete, .GetItem = GetItem, .SetItem = SetItem, .GetNext = GetNext, .SetNext = SetNext,
+    .New = New,
+    .Delete = Delete,
+    .GetItem = GetItem,
+    .SetItem = SetItem,
+    .GetNext = GetNext,
+    .SetNext = SetNext,
 };
 
 const ListNodeMethod listNode = &kTheMethod;

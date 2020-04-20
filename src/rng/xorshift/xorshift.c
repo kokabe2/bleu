@@ -6,7 +6,7 @@
 #include <string.h>
 
 #include "heap.h"
-#include "xorshift_protected.h"
+#include "rng/xorshift/xorshift_protected.h"
 
 static Xorshift New(int state_size, XorshiftAbstractMethod impl) {
   Xorshift self = (Xorshift)heap->New(sizeof(XorshiftStruct));
@@ -40,7 +40,9 @@ static void Give(Xorshift self, const uint32_t* seeds) {
 static uint32_t Generate(Xorshift self) { return self->impl->Generate(self); }
 
 static const XorshiftAbstractMethodStruct kTheMethod = {
-    .Delete = Delete, .Give = Give, .Generate = Generate,
+    .Delete = Delete,
+    .Give = Give,
+    .Generate = Generate,
 };
 
 const XorshiftAbstractMethod xorshift = &kTheMethod;
