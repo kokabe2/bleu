@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 extern "C" {
-#include "list_node.h"
+#include "list/list_node.h"
 }
 
 class ListNodeTest : public ::testing::Test {

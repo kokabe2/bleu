@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 
-#include "../heap_usage_internal.h"
+#include "heap/heap_usage_internal.h"
 
 static void* New(int size) {
   void* memory = calloc(1, size);
