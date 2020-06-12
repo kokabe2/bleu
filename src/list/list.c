@@ -3,7 +3,6 @@
 #include "list.h"
 
 #include <stdbool.h>
-#include <stddef.h>
 
 #include "heap.h"
 #include "list/list_node.h"

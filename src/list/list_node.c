@@ -2,8 +2,6 @@
 // This software is released under the MIT License, see LICENSE.
 #include "list/list_node.h"
 
-#include <stddef.h>
-
 #include "heap.h"
 
 typedef struct ListNodeStruct {
