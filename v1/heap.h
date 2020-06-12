@@ -3,6 +3,8 @@
 #ifndef V1_HEAP_H_
 #define V1_HEAP_H_
 
+#include <stddef.h>
+
 typedef struct {
   void* (*New)(int size);
   void (*Delete)(void** memory);
